@@ -1,0 +1,281 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { Poem, readingTime } from '@/lib/types';
+import { isFavorite, toggleFavorite, hasLiked, setLiked } from '@/lib/favorites';
+import AmbientCanvas from '@/components/AmbientCanvas';
+import PoemCard from '@/components/PoemCard';
+
+const langFont: Record<string, string> = {
+  Urdu: 'font-urdu text-right leading-loose',
+  Hindi: 'font-devanagari',
+  English: '',
+};
+
+function getYouTubeVideoId(url: string): string | null {
+  const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/shorts\/)([\w-]{11})/);
+  return match ? match[1] : null;
+}
+
+function isInstagramUrl(url: string): boolean {
+  return /instagram\.com\/(reel|p|tv)\//.test(url);
+}
+
+function InstagramEmbed({ url }: { url: string }) {
+  useEffect(() => {
+    // Load Instagram's embed script once, then re-process embeds whenever this mounts
+    const existing = document.getElementById('instagram-embed-script');
+    if (!existing) {
+      const script = document.createElement('script');
+      script.id = 'instagram-embed-script';
+      script.src = 'https://www.instagram.com/embed.js';
+      script.async = true;
+      document.body.appendChild(script);
+    } else if ((window as any).instgrm) {
+      (window as any).instgrm.Embeds.process();
+    }
+  }, [url]);
+
+  return (
+    <div className="flex justify-center my-8">
+      <blockquote
+        className="instagram-media"
+        data-instgrm-permalink={url}
+        data-instgrm-version="14"
+        style={{ background: '#000', border: 0, borderRadius: '12px', margin: 0, maxWidth: '540px', width: '100%' }}
+      />
+    </div>
+  );
+}
+
+export default function PoemView({ poem, related }: { poem: Poem; related: Poem[] }) {
+  const [likes, setLikes] = useState(poem.likes);
+  const [liked, setLikedState] = useState(hasLiked(poem._id));
+  const [fav, setFav] = useState(isFavorite(poem._id));
+  const [copied, setCopied] = useState(false);
+  const [comments, setComments] = useState(poem.comments || []);
+  const [name, setName] = useState('');
+  const [text, setText] = useState('');
+  const [posting, setPosting] = useState(false);
+
+  async function handleLike() {
+    const nextLiked = !liked;
+    const delta = nextLiked ? 1 : -1;
+    setLikedState(nextLiked);
+    setLiked(poem._id, nextLiked);
+    setLikes((l) => l + delta);
+    try {
+      await fetch(`/api/poems/${poem._id}/like`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ delta }),
+      });
+    } catch {
+      // revert on failure
+      setLikedState(!nextLiked);
+      setLiked(poem._id, !nextLiked);
+      setLikes((l) => l - delta);
+    }
+  }
+
+  function handleFavorite() {
+    setFav(toggleFavorite(poem._id));
+  }
+
+  async function handleCopy() {
+    await navigator.clipboard.writeText(`${poem.title}\n\n${poem.body}\n\n— ${poem.author}`);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  }
+
+  function handleDownload() {
+    const blob = new Blob([`${poem.title}\n\n${poem.body}\n\n— ${poem.author}`], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${poem.slug}.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function handleWhatsApp() {
+    const url = typeof window !== 'undefined' ? window.location.href : '';
+    const msg = encodeURIComponent(`"${poem.title}"\n\n${poem.body.slice(0, 200)}...\n\nRead more: ${url}`);
+    window.open(`https://wa.me/?text=${msg}`, '_blank');
+  }
+
+  async function handleComment(e: React.FormEvent) {
+    e.preventDefault();
+    if (!text.trim()) return;
+    setPosting(true);
+    try {
+      const res = await fetch(`/api/poems/${poem._id}/comment`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, text }),
+      });
+      const data = await res.json();
+      if (data.comments) {
+        setComments(data.comments);
+        setText('');
+      }
+    } finally {
+      setPosting(false);
+    }
+  }
+
+  const ytId = poem.videoUrl ? getYouTubeVideoId(poem.videoUrl) : null;
+  const isInsta = poem.videoUrl ? isInstagramUrl(poem.videoUrl) : false;
+
+  return (
+    <article className="relative">
+      <div className="relative overflow-hidden">
+        {poem.videoUrl && ytId ? (
+          <iframe
+            src={`https://www.youtube.com/embed/${ytId}?autoplay=1&mute=1&loop=1&playlist=${ytId}&controls=0&modestbranding=1&playsinline=1`}
+            className="absolute inset-0 w-full h-full object-cover opacity-25 pointer-events-none"
+            allow="autoplay; encrypted-media"
+            title="Poem ambience video"
+          />
+        ) : poem.videoUrl && !isInsta ? (
+          <video
+            src={poem.videoUrl}
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover opacity-25"
+          />
+        ) : !isInsta ? (
+          <AmbientCanvas mode={poem.ambience} />
+        ) : null}
+
+        <div className="relative z-10 mx-auto max-w-3xl px-5 md:px-8 pt-16 pb-10">
+          <div className="flex items-center gap-3 text-xs font-mono text-muted mb-6">
+            <Link href={`/category/${encodeURIComponent(poem.category)}`} className="text-accent hover:text-accent-bright">
+              {poem.category}
+            </Link>
+            <span>·</span>
+            <span>{readingTime(poem.body)}</span>
+            <span>·</span>
+            <span>{poem.views} views</span>
+          </div>
+
+          <h1 className={`font-display text-3xl md:text-5xl text-accent-bright mb-4 ${langFont[poem.language]}`}>
+            {poem.title}
+          </h1>
+          <p className="text-sm text-muted mb-8">
+            by {poem.author} · {new Date(poem.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+          </p>
+
+          {poem.category === 'Video' && poem.videoUrl && ytId && (
+            <div className="mb-8 rounded-2xl overflow-hidden aspect-video">
+              <iframe
+                src={`https://www.youtube.com/embed/${ytId}`}
+                className="w-full h-full"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                title={poem.title}
+              />
+            </div>
+          )}
+
+          {poem.audioUrl && (
+            <audio controls src={poem.audioUrl} className="w-full mb-8 rounded-lg" />
+          )}
+
+          {isInsta && poem.videoUrl && <InstagramEmbed url={poem.videoUrl} />}
+
+          <div className={`poem-body font-display text-lg md:text-xl text-parchment/95 mb-10 ${langFont[poem.language]}`}>
+            {poem.body}
+          </div>
+
+          <div className="flex flex-wrap items-center gap-3">
+            <button onClick={handleLike} className={`glass glow-hover rounded-full px-4 py-2 text-sm ${liked ? 'text-rose' : 'text-muted'}`}>
+              {liked ? '♥' : '♡'} {likes}
+            </button>
+            <button onClick={handleFavorite} className={`glass glow-hover rounded-full px-4 py-2 text-sm ${fav ? 'text-accent-bright' : 'text-muted'}`}>
+              {fav ? '★ Saved' : '☆ Save'}
+            </button>
+            <button onClick={handleCopy} className="glass glow-hover rounded-full px-4 py-2 text-sm text-muted">
+              {copied ? 'Copied ✓' : 'Copy'}
+            </button>
+            <button onClick={handleDownload} className="glass glow-hover rounded-full px-4 py-2 text-sm text-muted">
+              Download
+            </button>
+            <button onClick={handleWhatsApp} className="glass glow-hover rounded-full px-4 py-2 text-sm text-muted">
+              Share
+            </button>
+          </div>
+
+          {poem.tags?.length > 0 && (
+            <div className="flex flex-wrap gap-2 mt-6">
+              {poem.tags.map((t) => (
+                <span key={t} className="text-[11px] font-mono px-3 py-1 rounded-full border border-accent text-muted">
+                  #{t}
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+
+      <section className="mx-auto max-w-3xl px-5 md:px-8 py-10">
+        <div className="ink-divider mb-8" />
+        <h2 className="font-display text-xl text-accent-bright mb-6">Comments ({comments.length})</h2>
+
+        <form onSubmit={handleComment} className="glass rounded-2xl p-5 mb-8 space-y-3">
+          <input
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Your name (optional)"
+            className="w-full bg-transparent border border-accent rounded-lg px-3 py-2 text-sm placeholder:text-muted focus:outline-none focus:border-accent-bright"
+          />
+          <textarea
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            placeholder="Share what this poem made you feel..."
+            rows={3}
+            required
+            className="w-full bg-transparent border border-accent rounded-lg px-3 py-2 text-sm placeholder:text-muted focus:outline-none focus:border-accent-bright"
+          />
+          <button
+            type="submit"
+            disabled={posting}
+            className="text-sm px-4 py-2 rounded-full bg-accent/20 border border-accent text-accent-bright hover:bg-accent/30 transition-colors disabled:opacity-50"
+          >
+            {posting ? 'Posting…' : 'Post comment'}
+          </button>
+        </form>
+
+        <div className="space-y-4">
+          {comments.length === 0 && <p className="text-muted text-sm">No comments yet — be the first to leave one.</p>}
+          {comments.map((c, i) => (
+            <div key={c._id || i} className="glass rounded-xl p-4">
+              <div className="flex items-center justify-between mb-1">
+                <span className="text-sm text-accent-bright font-medium">{c.name || 'Anonymous'}</span>
+                {c.createdAt && (
+                  <span className="text-[11px] text-muted font-mono">{new Date(c.createdAt).toLocaleDateString()}</span>
+                )}
+              </div>
+              <p className="text-sm text-parchment/90">{c.text}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {related.length > 0 && (
+        <section className="mx-auto max-w-6xl px-5 md:px-8 py-10">
+          <div className="ink-divider mb-8" />
+          <h2 className="font-display text-xl text-accent-bright mb-6">Related poems</h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {related.map((p) => (
+              <PoemCard key={p._id} poem={p} />
+            ))}
+          </div>
+        </section>
+      )}
+    </article>
+  );
+}
