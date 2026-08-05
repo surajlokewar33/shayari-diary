@@ -1,9 +1,11 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 import { Poem, readingTime } from '@/lib/types';
 import { isFavorite, toggleFavorite, hasLiked, setLiked } from '@/lib/favorites';
+import { shareOrDownloadImage } from '@/lib/shareImage';
 import AmbientCanvas from '@/components/AmbientCanvas';
 import PoemCard from '@/components/PoemCard';
 
@@ -28,7 +30,6 @@ function isInstagramUrl(url: string): boolean {
 
 function InstagramEmbed({ url }: { url: string }) {
   useEffect(() => {
-    // Load Instagram's embed script once, then re-process embeds whenever this mounts
     const existing = document.getElementById('instagram-embed-script');
     if (!existing) {
       const script = document.createElement('script');
@@ -53,6 +54,51 @@ function InstagramEmbed({ url }: { url: string }) {
   );
 }
 
+function InkRevealBody({ body, language }: { body: string; language: string }) {
+  const [reducedMotion, setReducedMotion] = useState(false);
+
+  useEffect(() => {
+    setReducedMotion(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  }, []);
+
+  const lines = useMemo(() => body.split('\n'), [body]);
+  const totalDuration = Math.min(lines.length * 0.16, 2.4);
+
+  if (reducedMotion) {
+    return (
+      <div className={`poem-body font-display text-lg md:text-xl text-parchment/95 mb-10 whitespace-pre-line ${langFont[language]}`}>
+        {body}
+      </div>
+    );
+  }
+
+  return (
+    <div className={`relative mb-10 ${langFont[language] === 'font-urdu text-right leading-loose' ? 'pr-5' : 'pl-5'}`}>
+      <motion.div
+        initial={{ scaleY: 0, opacity: 0.6 }}
+        animate={{ scaleY: 1, opacity: 1 }}
+        transition={{ duration: totalDuration, ease: 'easeInOut' }}
+        style={{ transformOrigin: 'top' }}
+        className={`absolute top-1 bottom-1 w-[2px] bg-gradient-to-b from-accent via-accent-bright to-accent/20 ${
+          langFont[language] === 'font-urdu text-right leading-loose' ? 'right-0' : 'left-0'
+        }`}
+      />
+      <div className={`poem-body font-display text-lg md:text-xl text-parchment/95 ${langFont[language]}`}>
+        {lines.map((line, i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, y: 10, filter: 'blur(6px)' }}
+            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+            transition={{ duration: 0.6, delay: Math.min(i * 0.16, 2.2), ease: [0.16, 1, 0.3, 1] }}
+          >
+            {line || '\u00A0'}
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function PoemView({ poem, related }: { poem: Poem; related: Poem[] }) {
   const [likes, setLikes] = useState(poem.likes);
   const [liked, setLikedState] = useState(hasLiked(poem._id));
@@ -62,6 +108,7 @@ export default function PoemView({ poem, related }: { poem: Poem; related: Poem[
   const [name, setName] = useState('');
   const [text, setText] = useState('');
   const [posting, setPosting] = useState(false);
+  const [generatingImage, setGeneratingImage] = useState(false);
 
   async function handleLike() {
     const nextLiked = !liked;
@@ -76,7 +123,6 @@ export default function PoemView({ poem, related }: { poem: Poem; related: Poem[
         body: JSON.stringify({ delta }),
       });
     } catch {
-      // revert on failure
       setLikedState(!nextLiked);
       setLiked(poem._id, !nextLiked);
       setLikes((l) => l - delta);
@@ -107,6 +153,17 @@ export default function PoemView({ poem, related }: { poem: Poem; related: Poem[
     const url = typeof window !== 'undefined' ? window.location.href : '';
     const msg = encodeURIComponent(`"${poem.title}"\n\n${poem.body.slice(0, 200)}...\n\nRead more: ${url}`);
     window.open(`https://wa.me/?text=${msg}`, '_blank');
+  }
+
+  async function handleShareImage() {
+    setGeneratingImage(true);
+    try {
+      await shareOrDownloadImage(poem);
+    } catch (err) {
+      console.error('Share image failed', err);
+    } finally {
+      setGeneratingImage(false);
+    }
   }
 
   async function handleComment(e: React.FormEvent) {
@@ -196,9 +253,7 @@ export default function PoemView({ poem, related }: { poem: Poem; related: Poem[
             <audio controls src={poem.audioUrl} className="w-full mb-8 rounded-lg" />
           )}
 
-          <div className={`poem-body font-display text-lg md:text-xl text-parchment/95 mb-10 ${langFont[poem.language]}`}>
-            {poem.body}
-          </div>
+          <InkRevealBody body={poem.body} language={poem.language} />
 
           <div className="flex flex-wrap items-center gap-3">
             <button onClick={handleLike} className={`glass glow-hover rounded-full px-4 py-2 text-sm ${liked ? 'text-rose' : 'text-muted'}`}>
@@ -215,6 +270,13 @@ export default function PoemView({ poem, related }: { poem: Poem; related: Poem[
             </button>
             <button onClick={handleWhatsApp} className="glass glow-hover rounded-full px-4 py-2 text-sm text-muted">
               Share
+            </button>
+            <button
+              onClick={handleShareImage}
+              disabled={generatingImage}
+              className="glass glow-hover rounded-full px-4 py-2 text-sm text-muted disabled:opacity-50"
+            >
+              {generatingImage ? 'Creating…' : '🖼 Share Image'}
             </button>
           </div>
 

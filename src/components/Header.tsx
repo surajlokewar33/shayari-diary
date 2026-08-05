@@ -62,13 +62,6 @@ export default function Header() {
             )}
           </div>
 
-          <Link
-            href="/admin"
-            className="hidden md:inline-block text-xs px-3 py-1.5 rounded-full border border-accent text-muted hover:text-accent-bright transition-colors"
-          >
-            Admin
-          </Link>
-
           <button className="md:hidden text-accent-bright text-2xl leading-none" onClick={() => setOpen((v) => !v)} aria-label="Menu">
             {open ? '×' : '☰'}
           </button>
@@ -94,9 +87,6 @@ export default function Header() {
               </button>
             ))}
           </div>
-          <Link href="/admin" onClick={() => setOpen(false)} className="text-muted hover:text-accent-bright">
-            Admin
-          </Link>
         </div>
       )}
     </header>
