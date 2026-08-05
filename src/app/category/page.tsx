@@ -6,14 +6,13 @@ import { CATEGORIES } from '@/lib/types';
 export const revalidate = 0;
 
 const EMOJI: Record<string, string> = {
-  Love: '❤️',
-  Friendship: '🤝',
-  Motivation: '💪',
-  Sad: '😔',
-  Life: '🌿',
-  Nature: '🌸',
   'Urdu Shayari': '🖋️',
   'Hindi Poems': '📜',
+  'Ghazal': '🌙',
+  'Nazm': '🎋',
+  'Sher': '✒️',
+  'Video': '🎬',
+  'Others': '📖',
 };
 
 export default async function CategoryIndexPage() {

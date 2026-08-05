@@ -18,6 +18,10 @@ function getYouTubeVideoId(url: string): string | null {
   return match ? match[1] : null;
 }
 
+function isYouTubeShorts(url: string): boolean {
+  return /youtube\.com\/shorts\//.test(url);
+}
+
 function isInstagramUrl(url: string): boolean {
   return /instagram\.com\/(reel|p|tv)\//.test(url);
 }
@@ -131,25 +135,7 @@ export default function PoemView({ poem, related }: { poem: Poem; related: Poem[
   return (
     <article className="relative">
       <div className="relative overflow-hidden">
-        {poem.videoUrl && ytId ? (
-          <iframe
-            src={`https://www.youtube.com/embed/${ytId}?autoplay=1&mute=1&loop=1&playlist=${ytId}&controls=0&modestbranding=1&playsinline=1`}
-            className="absolute inset-0 w-full h-full object-cover opacity-25 pointer-events-none"
-            allow="autoplay; encrypted-media"
-            title="Poem ambience video"
-          />
-        ) : poem.videoUrl && !isInsta ? (
-          <video
-            src={poem.videoUrl}
-            autoPlay
-            muted
-            loop
-            playsInline
-            className="absolute inset-0 w-full h-full object-cover opacity-25"
-          />
-        ) : !isInsta ? (
-          <AmbientCanvas mode={poem.ambience} />
-        ) : null}
+        <AmbientCanvas mode={poem.ambience} />
 
         <div className="relative z-10 mx-auto max-w-3xl px-5 md:px-8 pt-16 pb-10">
           <div className="flex items-center gap-3 text-xs font-mono text-muted mb-6">
@@ -169,23 +155,46 @@ export default function PoemView({ poem, related }: { poem: Poem; related: Poem[
             by {poem.author} · {new Date(poem.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
           </p>
 
-          {poem.category === 'Video' && poem.videoUrl && ytId && (
-            <div className="mb-8 rounded-2xl overflow-hidden aspect-video">
-              <iframe
-                src={`https://www.youtube.com/embed/${ytId}`}
-                className="w-full h-full"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                title={poem.title}
-              />
+          {poem.videoUrl && (
+            <div className="mb-10">
+              {isInsta ? (
+                <InstagramEmbed url={poem.videoUrl} />
+              ) : ytId ? (
+                <div
+                  className={`mx-auto rounded-3xl overflow-hidden glass p-2 shadow-glow ${
+                    isYouTubeShorts(poem.videoUrl) ? 'max-w-sm' : 'max-w-2xl'
+                  }`}
+                >
+                  <div
+                    className={`rounded-2xl overflow-hidden bg-black ${
+                      isYouTubeShorts(poem.videoUrl) ? 'aspect-[9/16]' : 'aspect-video'
+                    }`}
+                  >
+                    <iframe
+                      src={`https://www.youtube.com/embed/${ytId}?modestbranding=1&rel=0&iv_load_policy=3&playsinline=1`}
+                      className="w-full h-full"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      title={poem.title}
+                    />
+                  </div>
+                </div>
+              ) : (
+                <div className="mx-auto max-w-xl rounded-3xl overflow-hidden glass p-2 shadow-glow">
+                  <video
+                    src={poem.videoUrl}
+                    controls
+                    playsInline
+                    className="w-full rounded-2xl"
+                  />
+                </div>
+              )}
             </div>
           )}
 
           {poem.audioUrl && (
             <audio controls src={poem.audioUrl} className="w-full mb-8 rounded-lg" />
           )}
-
-          {isInsta && poem.videoUrl && <InstagramEmbed url={poem.videoUrl} />}
 
           <div className={`poem-body font-display text-lg md:text-xl text-parchment/95 mb-10 ${langFont[poem.language]}`}>
             {poem.body}

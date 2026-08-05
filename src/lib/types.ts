@@ -29,12 +29,6 @@ export type Poem = {
 };
 
 export const CATEGORIES = [
-  'Love',
-  'Friendship',
-  'Motivation',
-  'Sad',
-  'Life',
-  'Nature',
   'Urdu Shayari',
   'Hindi Poems',
   'Ghazal',
@@ -45,12 +39,6 @@ export const CATEGORIES = [
 ] as const;
 
 export const CATEGORY_LABELS: Record<(typeof CATEGORIES)[number], string> = {
-  'Love': 'प्रेम',
-  'Friendship': 'दोस्ती',
-  'Motivation': 'प्रेरणा',
-  'Sad': 'उदासी',
-  'Life': 'जीवन',
-  'Nature': 'प्रकृति',
   'Urdu Shayari': 'उर्दू शायरी',
   'Hindi Poems': 'हिंदी कविताएँ',
   'Ghazal': 'ग़ज़ल',

@@ -1,14 +1,13 @@
 import mongoose, { Schema, models, model } from 'mongoose';
 
 export const CATEGORIES = [
-  'Love',
-  'Friendship',
-  'Motivation',
-  'Sad',
-  'Life',
-  'Nature',
   'Urdu Shayari',
   'Hindi Poems',
+  'Ghazal',
+  'Nazm',
+  'Sher',
+  'Video',
+  'Others',
 ] as const;
 
 const CommentSchema = new Schema(
