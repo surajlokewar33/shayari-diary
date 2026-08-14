@@ -62,7 +62,7 @@ export default async function HomePage() {
     }));
 
   return (
-    <div className="space-y-6 sm:space-y-10">
+    <div className="space-y-8 sm:space-y-12 md:space-y-16">
       {/* 1. Atmospheric Illustrated Hero Banner */}
       <HeroBanner />
 
@@ -72,12 +72,12 @@ export default async function HomePage() {
       </section>
 
       {/* 3. Category Filter Chips with Icons */}
-      <section className="mx-auto max-w-6xl px-4 sm:px-6 md:px-8 py-3">
-        <div className="flex flex-col items-center mb-5 text-center">
+      <section className="mx-auto max-w-6xl px-4 sm:px-6 md:px-8 py-2">
+        <div className="flex flex-col items-center mb-6 text-center">
           <p className="font-ui text-xs uppercase tracking-widest text-gold mb-1">
             श्रेणियों के अनुसार पढ़ें
           </p>
-          <h2 className="font-devanagari text-2xl font-bold text-parchment">
+          <h2 className="font-devanagari text-2xl sm:text-3xl font-bold text-parchment">
             काव्य विधाएँ
           </h2>
         </div>
@@ -92,12 +92,12 @@ export default async function HomePage() {
               <Link
                 key={c}
                 href={`/category/${encodeURIComponent(c)}`}
-                className="group flex items-center gap-2 px-4 py-2 rounded-full glass-journal border border-gold/25 hover:border-gold text-parchment hover:text-amber transition-all text-xs font-ui glow-hover"
+                className="group flex items-center gap-2 px-4 py-2.5 rounded-full glass-journal border border-gold/25 hover:border-gold text-parchment hover:text-amber transition-all text-xs font-ui min-h-[44px] glow-hover"
               >
-                <span>{icon}</span>
+                <span className="text-base">{icon}</span>
                 <span className="font-devanagari font-medium text-sm">{label}</span>
                 {count > 0 && (
-                  <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-gold/15 text-amber">
+                  <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-gold/15 text-amber">
                     {count}
                   </span>
                 )}
@@ -109,11 +109,11 @@ export default async function HomePage() {
 
       {/* 4. Featured Shayari of the Day */}
       {featured && (
-        <section className="mx-auto max-w-6xl px-4 sm:px-6 md:px-8 py-4">
-          <div className="relative rounded-3xl overflow-hidden glass-journal border border-gold/35 p-8 sm:p-12 md:p-14 shadow-journal glow-hover">
+        <section className="mx-auto max-w-6xl px-4 sm:px-6 md:px-8">
+          <div className="relative rounded-3xl overflow-hidden glass-journal border border-gold/35 p-8 sm:p-12 md:p-14 shadow-card glow-hover">
             <div className="relative z-10 max-w-3xl">
               <div className="flex items-center gap-2.5 mb-4">
-                <span className="px-3 py-1 rounded-full bg-gold/20 border border-gold/35 text-amber text-xs font-ui uppercase tracking-wider">
+                <span className="px-3.5 py-1 rounded-full bg-gold/15 border border-gold/35 text-amber text-xs font-ui uppercase tracking-wider font-semibold">
                   ★ आज की खास रचना
                 </span>
                 <span className="text-xs font-ui text-muted">
@@ -125,7 +125,7 @@ export default async function HomePage() {
                 {featured.title}
               </h2>
 
-              <p className="font-devanagari text-lg sm:text-xl text-cream/90 leading-loose whitespace-pre-line mb-6 max-w-2xl">
+              <p className="font-devanagari text-lg sm:text-xl text-cream/90 leading-loose whitespace-pre-line mb-8 max-w-2xl">
                 {featured.body.split('\n').filter(Boolean).slice(0, 4).join('\n')}
               </p>
 
@@ -137,7 +137,7 @@ export default async function HomePage() {
 
                 <Link
                   href={`/poems/${featured.slug}`}
-                  className="px-5 py-2.5 rounded-full bg-gold/20 hover:bg-gold/30 border border-gold text-amber font-ui text-xs uppercase tracking-wider transition-all"
+                  className="btn-primary text-xs"
                 >
                   पूरी रचना पढ़ें &rarr;
                 </Link>
@@ -148,7 +148,7 @@ export default async function HomePage() {
       )}
 
       {/* 5. Latest Poems Grid */}
-      <section id="latest-poems" className="mx-auto max-w-6xl px-4 sm:px-6 md:px-8 py-8">
+      <section id="latest-poems" className="mx-auto max-w-6xl px-4 sm:px-6 md:px-8">
         <div className="flex items-end justify-between mb-8 pb-4 border-b border-gold/20">
           <div>
             <p className="font-ui text-xs uppercase tracking-widest text-gold mb-1">
@@ -161,7 +161,7 @@ export default async function HomePage() {
 
           <Link
             href="/category"
-            className="flex items-center gap-1.5 text-xs sm:text-sm text-amber hover:text-gold font-ui uppercase tracking-wider transition-colors pb-1"
+            className="flex items-center gap-1 text-xs sm:text-sm text-amber hover:text-gold font-ui uppercase tracking-wider transition-colors min-h-[44px] px-2"
           >
             <span>सभी रचनाएँ</span>
             <span>&rarr;</span>
@@ -183,9 +183,9 @@ export default async function HomePage() {
       </section>
 
       {/* 6. The Poet / About Section */}
-      <section className="mx-auto max-w-6xl px-4 sm:px-6 md:px-8 py-10">
-        <div className="glass-journal rounded-3xl p-8 sm:p-10 border border-gold/25 relative overflow-hidden flex flex-col md:flex-row items-center gap-8 md:gap-10">
-          <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-full overflow-hidden border-2 border-gold shrink-0 shadow-glow relative">
+      <section className="mx-auto max-w-6xl px-4 sm:px-6 md:px-8 py-4">
+        <div className="glass-journal rounded-3xl p-8 sm:p-10 md:p-12 border border-gold/30 relative overflow-hidden flex flex-col md:flex-row items-center gap-8 md:gap-12 shadow-card">
+          <div className="w-28 h-28 sm:w-36 sm:h-36 rounded-full overflow-hidden border-2 border-gold shrink-0 shadow-glow relative">
             <img
               src="/profile.jpeg"
               alt="Suraj Lokewar (suru_33)"
@@ -194,19 +194,19 @@ export default async function HomePage() {
           </div>
 
           <div className="flex-1 text-center md:text-left">
-            <div className="inline-block text-[11px] font-ui uppercase tracking-widest text-gold px-3 py-1 rounded-full bg-gold/10 border border-gold/25 mb-2.5">
+            <div className="inline-block text-[11px] font-ui uppercase tracking-widest text-gold px-3.5 py-1 rounded-full bg-gold/10 border border-gold/25 mb-3 font-semibold">
               शायर का परिचय
             </div>
-            <h3 className="font-devanagari text-2xl sm:text-3xl font-bold text-parchment mb-2">
-              सुरज लोकेवार <span className="text-amber font-ui text-lg">(suru_33)</span>
+            <h3 className="font-devanagari text-2xl sm:text-3xl font-bold text-parchment mb-3">
+              सुरज लोकेवार <span className="text-amber font-ui text-lg font-normal">(suru_33)</span>
             </h3>
-            <p className="font-devanagari text-base sm:text-lg text-cream leading-relaxed mb-4">
+            <p className="font-devanagari text-base sm:text-lg text-cream leading-relaxed mb-6">
               हर शब्द एक एहसास है, हर शेर एक कहानी। यह डायरी उन अनकहे जज़्बातों का ठिकाना है जो अक्सर ख़ामोशी में गूंजते हैं।
             </p>
-            <div className="flex flex-wrap items-center justify-center md:justify-start gap-3.5 text-xs font-ui">
+            <div className="flex flex-wrap items-center justify-center md:justify-start gap-3.5">
               <Link
                 href="/contact"
-                className="px-5 py-2.5 rounded-full bg-gold/15 hover:bg-gold/25 border border-gold/40 text-amber transition-all"
+                className="btn-secondary text-xs"
               >
                 पूरा परिचय एवं संपर्क &rarr;
               </Link>
@@ -214,7 +214,7 @@ export default async function HomePage() {
                 href="https://www.instagram.com/suru33_?igsh=NnNhb2o4M2w5a2Zs"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-4 py-2.5 rounded-full glass border border-gold/25 text-muted hover:text-parchment transition-all"
+                className="btn-ghost text-xs"
               >
                 Instagram (@suru33_) ↗
               </a>

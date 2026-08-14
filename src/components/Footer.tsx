@@ -8,6 +8,7 @@ const SOCIAL_LINKS = {
 const QUICK_LINKS = [
   { href: '/', label: 'मुख्य पृष्ठ (Home)' },
   { href: '/category', label: 'श्रेणियाँ (Categories)' },
+  { href: '/reels', label: 'काव्य रील्स (Reels)' },
   { href: '/search', label: 'खोज (Search)' },
   { href: '/favorites', label: 'सहेजी गई रचनाएँ (Favorites)' },
   { href: '/contact', label: 'शायर परिचय (About Poet)' },
@@ -15,41 +16,41 @@ const QUICK_LINKS = [
 
 export default function Footer() {
   return (
-    <footer className="mt-20 border-t border-gold/25 glass relative z-10">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 md:px-8 py-14 grid grid-cols-1 md:grid-cols-3 gap-10">
-        {/* Brand Crest & Poetic Tagline */}
-        <div>
-          <div className="flex items-center gap-2 mb-3">
-            <span className="font-ui text-base font-bold text-parchment">
+    <footer className="mt-20 border-t border-gold/25 bg-maroon/80 backdrop-blur-lg relative z-10">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 md:px-8 py-14 sm:py-16 grid grid-cols-1 md:grid-cols-3 gap-10 sm:gap-12">
+        {/* Brand Column */}
+        <div className="space-y-4">
+          <div className="flex items-center gap-2.5">
+            <span className="font-ui text-lg font-bold text-parchment">
               suru_33
             </span>
-            <span className="text-muted text-xs">/</span>
-            <span className="font-devanagari text-lg font-bold text-parchment">
+            <span className="text-muted text-sm">/</span>
+            <span className="font-devanagari text-xl font-bold text-parchment">
               सूरु शाइर
             </span>
           </div>
 
-          <p className="font-devanagari text-sm text-cream/80 leading-relaxed mb-4">
+          <p className="font-devanagari text-sm text-cream/85 leading-relaxed">
             हर लफ़्ज़ में एक दास्ताँ, हर शेर में एक राज़ है। यह डिजिटल डायरी उन अनकहे जज़्बातों का ठिकाना है।
           </p>
 
-          <p className="font-ui text-xs text-muted">
+          <p className="font-ui text-xs text-muted tracking-wide">
             By Suraj Lokewar (suru_33)
           </p>
         </div>
 
-        {/* Quick Links */}
+        {/* Quick Navigation Links */}
         <div>
-          <p className="font-ui text-xs uppercase tracking-widest text-amber font-semibold mb-4">
+          <p className="font-ui text-xs uppercase tracking-widest text-amber font-semibold mb-5">
             नेविगेशन (Navigation)
           </p>
 
-          <div className="flex flex-col gap-2.5 text-xs font-ui text-cream/70">
+          <div className="flex flex-col gap-2">
             {QUICK_LINKS.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="hover:text-amber transition-colors"
+                className="text-sm font-ui text-cream/75 hover:text-amber transition-colors py-1 min-h-[36px] flex items-center"
               >
                 {link.label}
               </Link>
@@ -57,9 +58,9 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Follow / Social links */}
+        {/* Follow / Connect */}
         <div>
-          <p className="font-ui text-xs uppercase tracking-widest text-amber font-semibold mb-4">
+          <p className="font-ui text-xs uppercase tracking-widest text-amber font-semibold mb-5">
             सोशल मीडिया (Connect)
           </p>
 
@@ -68,7 +69,8 @@ export default function Footer() {
               href={SOCIAL_LINKS.instagram}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2.5 text-xs font-ui text-cream/80 hover:text-amber transition-colors"
+              className="flex items-center gap-3 text-sm font-ui text-cream/85 hover:text-amber transition-colors p-2.5 rounded-2xl glass border border-gold/20 glow-hover min-h-[44px]"
+              aria-label="Instagram Profile"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -76,7 +78,7 @@ export default function Footer() {
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="1.8"
-                className="w-4 h-4 text-gold"
+                className="w-5 h-5 text-gold shrink-0"
               >
                 <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
                 <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
@@ -89,7 +91,8 @@ export default function Footer() {
               href={SOCIAL_LINKS.youtube}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2.5 text-xs font-ui text-cream/80 hover:text-amber transition-colors"
+              className="flex items-center gap-3 text-sm font-ui text-cream/85 hover:text-amber transition-colors p-2.5 rounded-2xl glass border border-gold/20 glow-hover min-h-[44px]"
+              aria-label="YouTube Channel"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -97,7 +100,7 @@ export default function Footer() {
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="1.8"
-                className="w-4 h-4 text-rose"
+                className="w-5 h-5 text-rose shrink-0"
               >
                 <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z" />
                 <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" />
@@ -108,10 +111,10 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Bottom Copyright Strip */}
-      <div className="border-t border-gold/15 py-5 text-center">
+      {/* Distinct Bottom Copyright Strip */}
+      <div className="border-t border-gold/15 py-6 text-center bg-black/30">
         <p className="font-ui text-xs text-muted">
-          &copy; {new Date().getFullYear()} <span className="text-parchment">suru_33 / सूरु शाइर</span>. All rights reserved.
+          &copy; {new Date().getFullYear()} <span className="text-parchment font-medium">suru_33 / सूरु शाइर</span>. All rights reserved.
         </p>
       </div>
     </footer>

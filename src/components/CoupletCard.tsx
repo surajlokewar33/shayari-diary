@@ -64,7 +64,7 @@ export default function CoupletCard({
   return (
     <div
       id="couplet-of-the-day"
-      className="relative glass-journal rounded-3xl p-6 sm:p-8 md:p-10 border border-gold/30 overflow-hidden my-6 sm:my-8 shadow-journal"
+      className="relative glass-journal rounded-3xl p-6 sm:p-8 md:p-10 border border-gold/30 overflow-hidden my-6 sm:my-8 shadow-card"
     >
       <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="flex-1">
@@ -75,7 +75,7 @@ export default function CoupletCard({
               शेर-ए-वक़्त · Couplet of the Moment
             </span>
             {current.tag && (
-              <span className="text-[11px] font-ui px-2 py-0.5 rounded-full border border-gold/20 text-muted">
+              <span className="text-[11px] font-ui px-2.5 py-0.5 rounded-full border border-gold/20 text-muted">
                 #{current.tag}
               </span>
             )}
@@ -87,22 +87,22 @@ export default function CoupletCard({
               fade ? 'opacity-100' : 'opacity-0'
             }`}
           >
-            <blockquote className="font-devanagari text-lg sm:text-xl md:text-2xl text-parchment font-semibold leading-relaxed whitespace-pre-line my-2">
+            <blockquote className="font-devanagari text-xl sm:text-2xl md:text-3xl text-parchment font-semibold leading-relaxed whitespace-pre-line my-3">
               &ldquo;{current.sher}&rdquo;
             </blockquote>
 
-            <p className="font-ui text-xs sm:text-sm text-amber mt-2 flex items-center gap-1.5">
+            <p className="font-ui text-xs sm:text-sm text-amber mt-2 flex items-center gap-1.5 font-medium">
               <span>— {current.author}</span>
-              <span className="text-muted text-xs">(suru_33)</span>
+              <span className="text-muted text-xs font-normal">(suru_33)</span>
             </p>
           </div>
         </div>
 
-        {/* Action Buttons: Shuffle and Copy */}
+        {/* Action Buttons: Shuffle and Copy (min 44px touch targets) */}
         <div className="flex items-center gap-2.5 shrink-0 pt-3 md:pt-0 border-t md:border-t-0 border-gold/15">
           <button
             onClick={nextSher}
-            className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-gold/15 hover:bg-gold/25 border border-gold/40 text-amber text-xs font-ui transition-all hover:scale-105 active:scale-95"
+            className="btn-secondary text-xs font-ui min-h-[44px] px-4 gap-2"
             title="Next Couplet"
           >
             <svg
@@ -123,7 +123,12 @@ export default function CoupletCard({
 
           <button
             onClick={handleCopy}
-            className="px-3.5 py-2 rounded-full glass border border-gold/30 hover:border-gold text-cream hover:text-amber text-xs font-ui transition-all"
+            aria-live="polite"
+            className={`text-xs font-ui min-h-[44px] px-4 transition-all ${
+              copied
+                ? 'btn-secondary border-gold text-amber bg-gold/20 shadow-sm'
+                : 'btn-ghost'
+            }`}
             title="Copy to Clipboard"
           >
             {copied ? '✓ कॉपी हुआ' : 'कॉपी करें'}

@@ -26,24 +26,24 @@ export default function PoemCard({ poem }: { poem: Poem }) {
   return (
     <Link
       href={`/poems/${poem.slug}`}
-      className="glass-journal glow-hover group block rounded-3xl p-6 sm:p-7 h-full flex flex-col justify-between border border-gold/25 relative overflow-hidden transition-all duration-300"
+      className="glass-journal glow-hover group rounded-3xl p-6 sm:p-7 h-full flex flex-col justify-between border border-gold/25 relative overflow-hidden transition-all duration-300 min-h-[260px]"
     >
       {/* Subtle corner ornament */}
-      <div className="absolute top-2.5 right-2.5 w-4 h-4 border-t border-r border-gold/30 rounded-tr-md pointer-events-none" />
+      <div className="absolute top-3 right-3 w-4 h-4 border-t border-r border-gold/30 rounded-tr-md pointer-events-none" />
 
       <div>
-        {/* Card Header: Category Chip & Reading Time */}
+        {/* Visual Hierarchy Step 1: Category Badge & Reading Time */}
         <div className="flex items-center justify-between mb-4">
-          <span className="inline-flex items-center gap-1.5 text-xs px-3 py-1 rounded-full bg-gold/10 border border-gold/30 text-amber font-ui">
+          <span className="inline-flex items-center gap-1.5 text-xs px-3 py-1 rounded-full bg-gold/10 border border-gold/30 text-amber font-ui font-medium">
             <span>{icon}</span>
-            <span className="font-medium">{categoryLabel}</span>
+            <span>{categoryLabel}</span>
           </span>
-          <span className="text-[11px] text-muted font-ui tracking-wide">
+          <span className="text-xs text-muted font-ui tracking-wide">
             {readingTime(poem.body)}
           </span>
         </div>
 
-        {/* Video Thumbnail Embed if video exists */}
+        {/* Optional Media Preview */}
         {embedUrl && (
           <div className="mb-4 rounded-2xl overflow-hidden aspect-video border border-gold/20 shadow-md bg-black">
             <iframe
@@ -56,34 +56,31 @@ export default function PoemCard({ poem }: { poem: Poem }) {
           </div>
         )}
 
-        {/* Poem Title with language-specific RTL handling */}
+        {/* Visual Hierarchy Step 2: Poem Title */}
         <h3
           dir={isUrdu ? 'rtl' : 'ltr'}
-          className={`text-xl sm:text-2xl font-bold mb-3 text-parchment group-hover:text-amber transition-colors line-clamp-2 ${
-            isUrdu ? 'font-urdu text-right text-2xl leading-relaxed' : 'font-devanagari'
+          className={`text-xl sm:text-2xl font-bold mb-3 text-parchment group-hover:text-amber transition-colors line-clamp-2 leading-snug ${
+            isUrdu ? 'font-devanagari text-right' : 'font-devanagari'
           }`}
         >
           {poem.title}
         </h3>
 
-        {/* Poem Excerpt with per-block RTL handling */}
+        {/* Visual Hierarchy Step 3: Excerpt */}
         <p
           dir={isUrdu ? 'rtl' : 'ltr'}
-          className={`text-sm text-cream/85 line-clamp-3 leading-relaxed whitespace-pre-line ${
-            isUrdu ? 'font-urdu text-right text-lg' : 'font-devanagari'
+          className={`text-sm sm:text-base text-cream/85 line-clamp-3 leading-relaxed whitespace-pre-line ${
+            isUrdu ? 'font-devanagari text-right' : 'font-devanagari'
           }`}
         >
           {excerpt}
         </p>
       </div>
 
-      <div>
-        {/* Divider */}
-        <div className="ink-divider my-4 opacity-50" />
-
-        {/* Card Footer: Author & Likes (stays LTR) */}
+      {/* Visual Hierarchy Step 4: Footer Metadata (Author & Likes) */}
+      <div className="pt-4 mt-4 border-t border-gold/15">
         <div className="flex items-center justify-between text-xs text-muted font-ui">
-          <span className="flex items-center gap-1.5 text-cream/70 group-hover:text-amber transition-colors">
+          <span className="flex items-center gap-1.5 text-cream/75 group-hover:text-amber transition-colors font-medium">
             <span>✍️</span>
             <span>{poem.author || 'सुरज लोकेवार (suru_33)'}</span>
           </span>

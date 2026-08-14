@@ -6,6 +6,12 @@ import { Poem, readingTime, CATEGORY_LABELS } from '@/lib/types';
 import { isFavorite, toggleFavorite, hasLiked, setLiked } from '@/lib/favorites';
 import AmbientCanvas from '@/components/AmbientCanvas';
 import PoemCard from '@/components/PoemCard';
+import InstagramEmbed from '@/components/InstagramEmbed';
+
+function getYouTubeEmbedUrl(url: string): string | null {
+  const match = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+  return match ? `https://www.youtube.com/embed/${match[1]}` : null;
+}
 
 export default function PoemView({ poem, related }: { poem: Poem; related: Poem[] }) {
   const [likes, setLikes] = useState(poem.likes);
@@ -15,6 +21,8 @@ export default function PoemView({ poem, related }: { poem: Poem; related: Poem[
 
   const isUrdu = poem.language === 'Urdu';
   const categoryLabel = CATEGORY_LABELS[poem.category as keyof typeof CATEGORY_LABELS] ?? poem.category;
+  const ytEmbedUrl = poem.videoUrl ? getYouTubeEmbedUrl(poem.videoUrl) : null;
+  const isInstagram = poem.videoUrl?.includes('instagram.com');
 
   async function handleLike() {
     const nextLiked = !liked;
@@ -56,7 +64,7 @@ export default function PoemView({ poem, related }: { poem: Poem; related: Poem[
   }
 
   return (
-    <article className="relative min-h-screen py-6 md:py-12">
+    <article className="relative min-h-screen py-8 md:py-16">
       {/* Background Ambience Animation */}
       <div className="fixed inset-0 pointer-events-none z-0 opacity-40">
         <AmbientCanvas mode={poem.ambience} />
@@ -64,9 +72,9 @@ export default function PoemView({ poem, related }: { poem: Poem; related: Poem[
 
       <div className="relative z-10 mx-auto max-w-4xl px-4 sm:px-6 md:px-8">
         {/* Main Journal Page Card */}
-        <div className="glass-journal rounded-3xl p-6 sm:p-10 md:p-14 border border-gold/35 shadow-journal relative overflow-hidden">
-          {/* Decorative low-opacity watermark quote-mark */}
-          <div className="absolute top-6 right-8 text-7xl sm:text-9xl font-serif text-gold/5 pointer-events-none select-none">
+        <div className="glass-journal rounded-3xl p-6 sm:p-10 md:p-14 border border-gold/35 shadow-card relative overflow-hidden">
+          {/* Decorative watermark quote mark */}
+          <div className="absolute top-6 right-8 text-8xl sm:text-9xl font-serif text-gold/5 pointer-events-none select-none">
             ❝
           </div>
 
@@ -77,11 +85,11 @@ export default function PoemView({ poem, related }: { poem: Poem; related: Poem[
           <div className="absolute bottom-4 right-4 w-6 h-6 border-b-2 border-r-2 border-gold/40 rounded-br-md pointer-events-none" />
 
           {/* Breadcrumb / Category Metadata (stays LTR) */}
-          <div className="flex flex-wrap items-center justify-between gap-3 text-xs font-ui text-muted mb-8 pb-4 border-b border-gold/20">
-            <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center justify-between gap-3 text-xs font-ui text-muted mb-8 pb-4 border-b border-gold/15">
+            <div className="flex items-center gap-2.5">
               <Link
                 href={`/category/${encodeURIComponent(poem.category)}`}
-                className="px-3 py-1 rounded-full bg-gold/15 border border-gold/30 text-amber hover:bg-gold/25 transition-colors"
+                className="px-3.5 py-1 rounded-full bg-gold/15 border border-gold/30 text-amber hover:bg-gold/25 transition-colors font-medium min-h-[32px] flex items-center"
               >
                 {categoryLabel}
               </Link>
@@ -96,32 +104,50 @@ export default function PoemView({ poem, related }: { poem: Poem; related: Poem[
             </div>
           </div>
 
-          {/* Poem Title with language-aware RTL */}
+          {/* Poem Title */}
           <h1
             dir={isUrdu ? 'rtl' : 'ltr'}
-            className={`font-bold text-3xl sm:text-4xl md:text-5xl text-parchment mb-4 drop-shadow-sm ${
-              isUrdu ? 'font-urdu text-right leading-loose' : 'font-devanagari'
+            className={`font-bold text-3xl sm:text-4xl md:text-5xl text-parchment mb-4 drop-shadow-sm leading-tight ${
+              isUrdu ? 'font-devanagari text-right' : 'font-devanagari'
             }`}
           >
             {poem.title}
           </h1>
 
-          <p className="text-sm font-ui text-amber flex items-center gap-2 mb-8">
+          <p className="text-sm font-ui text-amber flex items-center gap-2 mb-8 font-medium">
             <span>✍️</span>
             <span>{poem.author || 'सुरज लोकेवार (suru_33)'}</span>
           </p>
 
-          {/* The Poem Verses (per-block RTL applied on Urdu, LTR for Hindi/English) */}
+          {/* The Poem Verses (constrained to max-w-2xl for optimal reading length) */}
           <div
             dir={isUrdu ? 'rtl' : 'ltr'}
-            className={`poem-body my-8 text-parchment leading-loose ${
+            className={`poem-body my-10 text-parchment leading-[2.3] max-w-2xl ${
               isUrdu
-                ? 'font-urdu text-right text-2xl sm:text-3xl pr-6 border-r-2 border-gold/40'
+                ? 'font-devanagari text-right text-xl sm:text-2xl pr-6 border-r-2 border-gold/40'
                 : 'font-devanagari text-xl sm:text-2xl pl-6 border-l-2 border-gold/40'
             }`}
           >
             {poem.body}
           </div>
+
+          {/* Optional Video / Instagram Reel Embed */}
+          {poem.videoUrl && (
+            <div className="my-8">
+              {isInstagram ? (
+                <InstagramEmbed url={poem.videoUrl} title={poem.title} />
+              ) : ytEmbedUrl ? (
+                <div className="aspect-video rounded-2xl overflow-hidden border border-gold/30 shadow-card bg-black max-w-2xl mx-auto">
+                  <iframe
+                    src={ytEmbedUrl}
+                    title={poem.title}
+                    className="w-full h-full"
+                    allowFullScreen
+                  />
+                </div>
+              ) : null}
+            </div>
+          )}
 
           {/* Signature Divider */}
           <div className="ink-divider-ornate my-8" />
@@ -130,12 +156,12 @@ export default function PoemView({ poem, related }: { poem: Poem; related: Poem[
             <span className="text-gold">❦ ❦ ❦</span>
           </div>
 
-          {/* Clean Action Toolbar for Phase 1 */}
-          <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 pt-6 border-t border-gold/20">
+          {/* Action Toolbar */}
+          <div className="flex flex-wrap items-center gap-3 pt-6 border-t border-gold/15">
             <button
               onClick={handleLike}
-              className={`flex items-center gap-2 px-4 py-2 rounded-full glass border transition-all text-xs font-ui ${
-                liked ? 'border-rose text-rose bg-rose/15' : 'border-gold/30 text-cream/80 hover:text-parchment'
+              className={`btn-ghost text-xs font-ui gap-2 min-h-[44px] ${
+                liked ? 'border-rose text-rose bg-rose/15' : ''
               }`}
             >
               <span>{liked ? '♥' : '♡'}</span>
@@ -144,8 +170,8 @@ export default function PoemView({ poem, related }: { poem: Poem; related: Poem[
 
             <button
               onClick={handleFavorite}
-              className={`flex items-center gap-2 px-4 py-2 rounded-full glass border transition-all text-xs font-ui ${
-                fav ? 'border-gold text-amber bg-gold/15' : 'border-gold/30 text-cream/80 hover:text-parchment'
+              className={`btn-ghost text-xs font-ui gap-2 min-h-[44px] ${
+                fav ? 'border-gold text-amber bg-gold/15' : ''
               }`}
             >
               <span>{fav ? '★' : '☆'}</span>
@@ -154,7 +180,12 @@ export default function PoemView({ poem, related }: { poem: Poem; related: Poem[
 
             <button
               onClick={handleCopy}
-              className="px-4 py-2 rounded-full glass border border-gold/30 hover:border-gold text-cream hover:text-amber text-xs font-ui transition-all"
+              aria-live="polite"
+              className={`text-xs font-ui min-h-[44px] px-4 transition-all ${
+                copied
+                  ? 'btn-secondary border-gold text-amber bg-gold/20 shadow-sm'
+                  : 'btn-ghost'
+              }`}
             >
               {copied ? '✓ कॉपी हुआ' : 'कॉपी करें'}
             </button>
@@ -162,7 +193,7 @@ export default function PoemView({ poem, related }: { poem: Poem; related: Poem[
             {typeof navigator !== 'undefined' && (navigator as any).share && (
               <button
                 onClick={handleNativeShare}
-                className="px-4 py-2 rounded-full glass border border-gold/30 hover:border-gold text-cream hover:text-amber text-xs font-ui transition-all"
+                className="btn-ghost text-xs font-ui min-h-[44px]"
               >
                 शेयर करें
               </button>
@@ -186,17 +217,17 @@ export default function PoemView({ poem, related }: { poem: Poem; related: Poem[
 
         {/* Related Poems */}
         {related.length > 0 && (
-          <section className="mt-14">
-            <div className="flex items-center justify-between mb-6 pb-4 border-b border-gold/20">
+          <section className="mt-16">
+            <div className="flex items-center justify-between mb-8 pb-4 border-b border-gold/20">
               <h2 className="font-devanagari text-2xl font-bold text-parchment">
                 अन्य संबंधित रचनाएँ
               </h2>
-              <Link href="/category" className="text-xs font-ui text-amber hover:text-gold">
+              <Link href="/category" className="text-xs font-ui text-amber hover:text-gold min-h-[44px] flex items-center">
                 सभी देखें &rarr;
               </Link>
             </div>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
               {related.map((p) => (
                 <PoemCard key={p._id} poem={p} />
               ))}

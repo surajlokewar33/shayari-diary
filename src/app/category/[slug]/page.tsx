@@ -18,12 +18,12 @@ export default async function CategoryPage({ params }: { params: { slug: string 
       <section className="mx-auto max-w-6xl px-4 sm:px-6 md:px-8 py-12 md:py-16">
         <div className="mb-10 pb-6 border-b border-gold/20 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
-            <div className="flex items-center gap-2 text-xs font-mono text-muted mb-2">
-              <Link href="/category" className="text-gold-dim hover:text-gold-bright transition-colors">
+            <div className="flex items-center gap-2 text-xs font-ui text-muted mb-2">
+              <Link href="/category" className="text-muted hover:text-amber transition-colors">
                 श्रेणियाँ
               </Link>
               <span>/</span>
-              <span className="text-gold">{category}</span>
+              <span className="text-gold font-medium">{category}</span>
             </div>
 
             <h1 className="font-devanagari text-3xl sm:text-4xl md:text-5xl font-bold text-parchment">
@@ -31,7 +31,7 @@ export default async function CategoryPage({ params }: { params: { slug: string 
             </h1>
           </div>
 
-          <span className="text-xs font-mono px-3.5 py-1.5 rounded-full glass border border-gold/30 text-gold-bright shrink-0">
+          <span className="text-xs font-ui px-4 py-1.5 rounded-full bg-gold/10 border border-gold/30 text-amber shrink-0 font-medium">
             {poems.length} रचनाएँ उपलब्ध
           </span>
         </div>
@@ -47,7 +47,7 @@ export default async function CategoryPage({ params }: { params: { slug: string 
             <p className="font-devanagari text-lg mb-2">इस श्रेणी में अभी कोई शायरी प्रकाशित नहीं है।</p>
             <Link
               href="/category"
-              className="inline-block mt-4 text-xs font-mono px-4 py-2 rounded-full glass border border-gold/30 text-gold-bright hover:border-gold"
+              className="btn-secondary text-xs mt-4"
             >
               &larr; अन्य श्रेणियाँ देखें
             </Link>

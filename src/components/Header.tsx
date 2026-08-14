@@ -2,11 +2,12 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const NAV = [
   { href: '/', label: 'होम' },
   { href: '/category', label: 'श्रेणियाँ' },
+  { href: '/reels', label: 'रील्स' },
   { href: '/search', label: 'खोज' },
   { href: '/favorites', label: 'पसंदीदा' },
   { href: '/contact', label: 'शायर' },
@@ -15,13 +16,32 @@ const NAV = [
 export default function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
-    <header className="sticky top-0 z-40 glass border-b border-gold/20 backdrop-blur-xl transition-all">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 md:px-8 h-16 sm:h-18 flex items-center justify-between">
+    <header
+      className={`sticky top-0 z-40 transition-all duration-300 border-b ${
+        scrolled
+          ? 'bg-maroon-elevated/95 backdrop-blur-xl border-gold/30 shadow-card py-2.5'
+          : 'bg-maroon/70 backdrop-blur-md border-gold/15 py-3.5'
+      }`}
+    >
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 md:px-8 flex items-center justify-between">
         {/* Brand Lockup: suru_33 / सूरु शाइर */}
-        <Link href="/" className="flex items-center gap-2.5 group">
-          <div className="w-9 h-9 rounded-full glass border border-gold/35 flex items-center justify-center text-gold group-hover:border-gold/60 group-hover:scale-105 transition-all shadow-sm">
+        <Link
+          href="/"
+          className="flex items-center gap-3 group min-h-[44px] py-1"
+          aria-label="suru_33 / सूरु शाइर Home"
+        >
+          <div className="w-9 h-9 rounded-full bg-gold/10 border border-gold/40 flex items-center justify-center text-gold group-hover:border-amber group-hover:scale-105 transition-all shadow-sm">
             <svg
               width="18"
               height="18"
@@ -40,42 +60,42 @@ export default function Header() {
           </div>
 
           <div className="flex items-baseline gap-1.5">
-            <span className="font-ui text-sm sm:text-base font-bold tracking-tight text-parchment group-hover:text-amber transition-colors">
+            <span className="font-ui text-base font-bold tracking-tight text-parchment group-hover:text-amber transition-colors">
               suru_33
             </span>
             <span className="text-muted text-xs">/</span>
-            <span className="font-devanagari text-base sm:text-lg font-bold text-parchment group-hover:text-amber transition-colors">
+            <span className="font-devanagari text-lg font-bold text-parchment group-hover:text-amber transition-colors">
               सूरु शाइर
             </span>
           </div>
         </Link>
 
         {/* Desktop Navigation Links */}
-        <nav className="hidden md:flex items-center gap-7 font-devanagari text-sm font-medium">
+        <nav className="hidden md:flex items-center gap-1 font-devanagari text-sm">
           {NAV.map((item) => {
             const active = pathname === item.href;
             return (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`relative py-1 transition-colors ${
-                  active ? 'text-amber font-semibold' : 'text-cream/80 hover:text-parchment'
+                className={`relative px-4 py-2 rounded-full transition-all min-h-[40px] flex items-center ${
+                  active
+                    ? 'bg-gold/15 text-amber font-semibold border border-gold/35 shadow-sm'
+                    : 'text-cream/80 hover:text-parchment hover:bg-white/5'
                 }`}
               >
                 {item.label}
-                {active && (
-                  <span className="absolute left-0 right-0 -bottom-0.5 h-[2px] bg-gradient-to-r from-gold/40 via-gold to-gold/40 rounded-full" />
-                )}
               </Link>
             );
           })}
         </nav>
 
-        {/* Mobile Hamburger Button */}
+        {/* Mobile Menu Toggle (Min 44x44px touch target) */}
         <button
-          className="md:hidden text-amber w-9 h-9 rounded-full glass border border-gold/30 flex items-center justify-center text-lg focus:outline-none"
+          className="md:hidden text-amber w-11 h-11 rounded-full glass border border-gold/30 flex items-center justify-center text-xl focus-visible:ring-2 focus-visible:ring-gold/60 focus:outline-none transition-all active:scale-95"
           onClick={() => setOpen((v) => !v)}
-          aria-label="Toggle Menu"
+          aria-label={open ? 'Close Menu' : 'Open Menu'}
+          aria-expanded={open}
         >
           {open ? '✕' : '☰'}
         </button>
@@ -83,25 +103,28 @@ export default function Header() {
 
       {/* Mobile Navigation Drawer */}
       <div
-        className={`md:hidden glass border-t border-gold/15 overflow-hidden transition-all duration-300 ${
-          open ? 'max-h-64 opacity-100' : 'max-h-0 opacity-0'
+        className={`md:hidden glass border-t border-gold/20 overflow-hidden transition-all duration-300 ${
+          open ? 'max-h-80 opacity-100' : 'max-h-0 opacity-0'
         }`}
       >
-        <div className="px-6 py-4 flex flex-col gap-3">
-          {NAV.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              onClick={() => setOpen(false)}
-              className={`font-devanagari text-base py-1 transition-colors ${
-                pathname === item.href
-                  ? 'text-amber font-bold'
-                  : 'text-cream/80 hover:text-parchment'
-              }`}
-            >
-              {item.label}
-            </Link>
-          ))}
+        <div className="px-6 py-5 flex flex-col gap-2">
+          {NAV.map((item) => {
+            const active = pathname === item.href;
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={() => setOpen(false)}
+                className={`font-devanagari text-base px-4 py-3 rounded-2xl min-h-[48px] flex items-center transition-colors ${
+                  active
+                    ? 'bg-gold/20 text-amber font-bold border border-gold/30'
+                    : 'text-cream/90 hover:text-parchment hover:bg-white/5'
+                }`}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
         </div>
       </div>
     </header>

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
-import { Inter, Noto_Serif_Devanagari, Noto_Nastaliq_Urdu } from 'next/font/google';
+import { Inter, Noto_Serif_Devanagari } from 'next/font/google';
+import Script from 'next/script';
 import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -19,20 +20,29 @@ const devanagari = Noto_Serif_Devanagari({
   display: 'swap',
 });
 
-const urdu = Noto_Nastaliq_Urdu({
-  subsets: ['arabic'],
-  variable: '--font-urdu',
-  weight: ['400', '700'],
-  display: 'swap',
-});
-
 export const metadata: Metadata = {
+  metadataBase: new URL('https://suraurshayari.vercel.app'),
   title: 'suru_33 / सूरु शाइर — A Digital Shayari Diary',
   description: 'suru_33 / सूरु शाइर — हर शब्द एक एहसास, हर शेर एक कहानी। उर्दू शायरी, हिंदी कविताएँ, ग़ज़लें और नज़्में।',
   openGraph: {
     title: 'suru_33 / सूरु शाइर — A Digital Shayari Diary',
     description: 'suru_33 / सूरु शाइर — हर शब्द एक एहसास, हर शेर एक कहानी। उर्दू शायरी, हिंदी कविताएँ, ग़ज़लें और नज़्में।',
     type: 'website',
+    siteName: 'suru_33 / सूरु शाइर',
+    images: [
+      {
+        url: '/hero_banner.jpg',
+        width: 1200,
+        height: 675,
+        alt: 'suru_33 / सूरु शाइर — A Digital Shayari Diary',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'suru_33 / सूरु शाइर — A Digital Shayari Diary',
+    description: 'suru_33 / सूरु शाइर — हर शब्द एक एहसास, हर शेर एक कहानी। उर्दू शायरी, हिंदी कविताएँ, ग़ज़लें और नज़्में।',
+    images: ['/hero_banner.jpg'],
   },
 };
 
@@ -40,7 +50,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="hi"
-      className={`${ui.variable} ${devanagari.variable} ${urdu.variable}`}
+      className={`${ui.variable} ${devanagari.variable}`}
     >
       <body className="bg-ink text-parchment font-ui antialiased selection:bg-gold/30 selection:text-parchment overflow-x-hidden min-h-screen flex flex-col justify-between">
         <ThemeProvider>
@@ -48,6 +58,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <main className="min-h-screen flex-1">{children}</main>
           <Footer />
         </ThemeProvider>
+        {/* Load official Instagram embed script once globally */}
+        <Script
+          src="https://www.instagram.com/embed.js"
+          strategy="lazyOnload"
+        />
       </body>
     </html>
   );

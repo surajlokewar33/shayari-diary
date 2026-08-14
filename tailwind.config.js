@@ -9,64 +9,62 @@ module.exports = {
     extend: {
       colors: {
         ink: {
-          DEFAULT: '#0E080B',
-          soft: '#160D12',
-          deep: '#090507',
+          DEFAULT: '#0B0709',
+          soft: '#140C11',
+          deep: '#070406',
         },
         maroon: {
-          DEFAULT: '#1F0A11',
-          rich: '#2B0E17',
+          DEFAULT: '#1A0C12',
+          surface: '#1F0F17',
+          elevated: '#28131E',
           wine: '#350F1B',
         },
         parchment: {
           DEFAULT: '#F7F2E7',
-          cream: '#E6DAC4',
+          cream: '#D8CEBD',
         },
         gold: {
           DEFAULT: '#D4AF37',
           amber: '#E8C568',
+          subtle: 'rgba(212, 175, 55, 0.12)',
           dim: '#9E7D23',
         },
         rose: {
           DEFAULT: '#C24A60',
-          bright: '#DF6880',
+          bright: '#E26D85',
         },
         ash: {
-          muted: '#9E8B83',
+          muted: '#9E8C84',
         },
       },
       fontFamily: {
-        devanagari: ['var(--font-devanagari)', 'serif'],
-        urdu: ['var(--font-urdu)', 'serif'],
-        ui: ['var(--font-ui)', 'sans-serif'],
-      },
-      backgroundImage: {
-        'ink-gradient': 'radial-gradient(ellipse 80% 60% at 50% -10%, rgba(212,175,55,0.14), transparent), linear-gradient(180deg, #0E080B 0%, #170C12 100%)',
-        'maroon-gradient': 'linear-gradient(135deg, #1F0A11 0%, #0E080B 100%)',
+        devanagari: ['var(--font-devanagari)', 'Georgia', 'Cambria', 'serif'],
+        ui: ['var(--font-ui)', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
       },
       boxShadow: {
-        glow: '0 0 35px rgba(212,175,55,0.18)',
-        journal: '0 20px 40px -15px rgba(0,0,0,0.7), 0 0 0 1px rgba(212,175,55,0.22)',
+        card: '0 12px 32px -8px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(212, 175, 55, 0.22)',
+        'card-hover': '0 18px 44px -8px rgba(0, 0, 0, 0.7), 0 0 24px -4px rgba(212, 175, 55, 0.18), 0 0 0 1px rgba(232, 197, 104, 0.5)',
+        glow: '0 0 30px rgba(212, 175, 55, 0.22)',
+        subtle: '0 4px 20px rgba(0, 0, 0, 0.4)',
       },
       keyframes: {
-        drift: {
-          '0%': { transform: 'translateY(-10%) translateX(0)', opacity: '0' },
-          '10%': { opacity: '1' },
-          '100%': { transform: 'translateY(110vh) translateX(20px)', opacity: '0' },
-        },
         shimmer: {
           '0%, 100%': { opacity: '0.4' },
           '50%': { opacity: '1' },
         },
         'fade-up': {
-          '0%': { opacity: '0', transform: 'translateY(14px)' },
+          '0%': { opacity: '0', transform: 'translateY(12px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        pulseSlow: {
+          '0%, 100%': { opacity: '0.6' },
+          '50%': { opacity: '1' },
         },
       },
       animation: {
-        drift: 'drift 14s linear infinite',
-        shimmer: 'shimmer 3s ease-in-out infinite',
-        'fade-up': 'fade-up 0.5s cubic-bezier(0.16,1,0.3,1) both',
+        shimmer: 'shimmer 2.5s ease-in-out infinite',
+        'fade-up': 'fade-up 0.4s cubic-bezier(0.16,1,0.3,1) both',
+        'pulse-slow': 'pulseSlow 3s ease-in-out infinite',
       },
     },
   },

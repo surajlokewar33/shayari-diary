@@ -59,7 +59,7 @@ export default async function CategoryIndexPage() {
     return (
       <section className="mx-auto max-w-6xl px-4 sm:px-6 md:px-8 py-12 md:py-16">
         <div className="text-center max-w-2xl mx-auto mb-14">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full glass border border-gold/30 text-gold-bright text-xs font-mono uppercase tracking-widest mb-4">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-gold/10 border border-gold/30 text-amber text-xs font-ui uppercase tracking-widest mb-4 font-semibold">
             <span>✦</span>
             <span>काव्य श्रेणियाँ · Genres</span>
             <span>✦</span>
@@ -69,7 +69,7 @@ export default async function CategoryIndexPage() {
             काव्य विधाओं का संग्रह
           </h1>
 
-          <p className="font-devanagari text-base sm:text-lg text-parchment-aged leading-relaxed">
+          <p className="font-devanagari text-base sm:text-lg text-cream leading-relaxed">
             अपने मिज़ाज और जज़्बात के अनुसार शायरी, ग़ज़ल या नज़्म का चुनाव करें।
           </p>
         </div>
@@ -84,36 +84,36 @@ export default async function CategoryIndexPage() {
               <Link
                 key={c}
                 href={`/category/${encodeURIComponent(c)}`}
-                className="glass-journal glow-hover group rounded-3xl p-7 border border-gold/25 flex flex-col justify-between relative overflow-hidden"
+                className="glass-journal glow-hover group rounded-3xl p-7 border border-gold/25 flex flex-col justify-between relative overflow-hidden min-h-[250px]"
               >
                 {/* Decorative corner */}
                 <div className="absolute top-3 right-3 w-5 h-5 border-t border-r border-gold/30 rounded-tr-md pointer-events-none" />
 
                 <div>
                   <div className="flex items-center justify-between mb-5">
-                    <div className="w-14 h-14 rounded-2xl glass border border-gold/40 flex items-center justify-center text-2xl group-hover:scale-110 group-hover:border-gold transition-all shadow-sm">
+                    <div className="w-13 h-13 rounded-2xl bg-gold/10 border border-gold/30 flex items-center justify-center text-2xl group-hover:scale-105 group-hover:border-gold transition-all shadow-sm">
                       {meta.icon}
                     </div>
 
-                    <span className="text-xs font-mono px-3 py-1 rounded-full bg-gold/10 border border-gold/20 text-gold-amber">
+                    <span className="text-xs font-ui px-3 py-1 rounded-full bg-gold/10 border border-gold/20 text-amber font-medium">
                       {count} रचनाएँ
                     </span>
                   </div>
 
-                  <span className="text-[11px] font-mono uppercase tracking-wider text-gold-dim block mb-1">
+                  <span className="text-[11px] font-ui uppercase tracking-wider text-muted block mb-1 font-medium">
                     {meta.tag}
                   </span>
 
-                  <h2 className="font-devanagari text-2xl font-bold text-parchment group-hover:text-gold-bright transition-colors mb-3">
+                  <h2 className="font-devanagari text-2xl font-bold text-parchment group-hover:text-amber transition-colors mb-3">
                     {label}
                   </h2>
 
-                  <p className="font-devanagari text-sm text-parchment/75 leading-relaxed">
+                  <p className="font-devanagari text-sm sm:text-base text-cream/80 leading-relaxed">
                     {meta.description}
                   </p>
                 </div>
 
-                <div className="pt-6 mt-6 border-t border-gold/15 flex items-center justify-between text-xs font-mono text-gold-bright group-hover:text-gold transition-colors">
+                <div className="pt-5 mt-5 border-t border-gold/15 flex items-center justify-between text-xs font-ui text-amber group-hover:text-gold transition-colors font-medium">
                   <span>पन्ने पलटें</span>
                   <span className="group-hover:translate-x-1 transition-transform">&rarr;</span>
                 </div>
