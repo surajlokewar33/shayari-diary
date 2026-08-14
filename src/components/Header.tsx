@@ -3,137 +3,105 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
-import { useTheme, ThemeName } from './ThemeProvider';
-
-const THEMES: { id: ThemeName; label: string }[] = [
-  { id: 'ink', label: 'Dark' },
-  { id: 'vintage', label: 'Vintage Paper' },
-  { id: 'blackgold', label: 'Black & Gold' },
-  { id: 'royal', label: 'Royal Blue' },
-];
 
 const NAV = [
-  { href: '/', label: 'Home' },
-  { href: '/category', label: 'Categories' },
-  { href: '/search', label: 'Search' },
-  { href: '/favorites', label: 'Favorites' },
-  { href: '/contact', label: 'Contact' },
+  { href: '/', label: 'होम' },
+  { href: '/category', label: 'श्रेणियाँ' },
+  { href: '/search', label: 'खोज' },
+  { href: '/favorites', label: 'पसंदीदा' },
+  { href: '/contact', label: 'शायर' },
 ];
 
 export default function Header() {
-  const { theme, setTheme } = useTheme();
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const [themeOpen, setThemeOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-40 glass">
-      <div className="mx-auto max-w-6xl px-5 md:px-8 h-16 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 group">
-          <svg
-            width="22"
-            height="22"
-            viewBox="0 0 24 24"
-            fill="none"
-            className="text-accent-bright shrink-0 transition-transform group-hover:rotate-6"
-          >
-            <path
-              d="M4 20L15 9M15 9L18 6C18.5 5.5 19.5 5.5 20 6C20.5 6.5 20.5 7.5 20 8L17 11M15 9L17 11M4 20L6 15L11 17L4 20Z"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-          <span className="font-display text-xl tracking-wide text-accent-bright">
-            सूरु 33 <span className="text-muted text-sm font-body">· शाइर</span>
-          </span>
+    <header className="sticky top-0 z-40 glass border-b border-gold/20 backdrop-blur-xl transition-all">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 md:px-8 h-16 sm:h-18 flex items-center justify-between">
+        {/* Brand Lockup: suru_33 / सूरु शाइर */}
+        <Link href="/" className="flex items-center gap-2.5 group">
+          <div className="w-9 h-9 rounded-full glass border border-gold/35 flex items-center justify-center text-gold group-hover:border-gold/60 group-hover:scale-105 transition-all shadow-sm">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              className="text-gold shrink-0 transition-transform group-hover:rotate-6"
+            >
+              <path
+                d="M4 20L15 9M15 9L18 6C18.5 5.5 19.5 5.5 20 6C20.5 6.5 20.5 7.5 20 8L17 11M15 9L17 11M4 20L6 15L11 17L4 20Z"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </div>
+
+          <div className="flex items-baseline gap-1.5">
+            <span className="font-ui text-sm sm:text-base font-bold tracking-tight text-parchment group-hover:text-amber transition-colors">
+              suru_33
+            </span>
+            <span className="text-muted text-xs">/</span>
+            <span className="font-devanagari text-base sm:text-lg font-bold text-parchment group-hover:text-amber transition-colors">
+              सूरु शाइर
+            </span>
+          </div>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-7 font-body text-sm">
+        {/* Desktop Navigation Links */}
+        <nav className="hidden md:flex items-center gap-7 font-devanagari text-sm font-medium">
           {NAV.map((item) => {
             const active = pathname === item.href;
             return (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`relative pb-1 transition-colors ${
-                  active ? 'text-accent-bright' : 'text-muted hover:text-accent-bright'
+                className={`relative py-1 transition-colors ${
+                  active ? 'text-amber font-semibold' : 'text-cream/80 hover:text-parchment'
                 }`}
               >
                 {item.label}
-                <span
-                  className={`absolute left-0 -bottom-0.5 h-[1.5px] bg-accent-bright transition-all ${
-                    active ? 'w-full' : 'w-0 group-hover:w-full'
-                  }`}
-                />
+                {active && (
+                  <span className="absolute left-0 right-0 -bottom-0.5 h-[2px] bg-gradient-to-r from-gold/40 via-gold to-gold/40 rounded-full" />
+                )}
               </Link>
             );
           })}
         </nav>
 
-        <div className="flex items-center gap-3">
-          <div className="relative hidden md:block">
-            <button
-              onClick={() => setThemeOpen((v) => !v)}
-              className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full border border-accent text-muted hover:text-accent-bright hover:border-accent-bright transition-colors"
-            >
-              {THEMES.find((t) => t.id === theme)?.label}
-              <svg width="10" height="10" viewBox="0 0 12 12" fill="none" className={`transition-transform ${themeOpen ? 'rotate-180' : ''}`}>
-                <path d="M2 4L6 8L10 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-              </svg>
-            </button>
-            {themeOpen && (
-              <div className="absolute right-0 mt-2 w-44 glass rounded-lg overflow-hidden shadow-lg border border-accent/30">
-                {THEMES.map((t) => (
-                  <button
-                    key={t.id}
-                    onClick={() => { setTheme(t.id); setThemeOpen(false); }}
-                    className={`block w-full text-left px-4 py-2 text-sm hover:bg-white/5 transition-colors ${
-                      theme === t.id ? 'text-accent-bright' : 'text-muted'
-                    }`}
-                  >
-                    {t.label}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-
-          <button
-            className="md:hidden text-accent-bright text-2xl leading-none w-8 h-8 flex items-center justify-center"
-            onClick={() => setOpen((v) => !v)}
-            aria-label="Menu"
-          >
-            {open ? '×' : '☰'}
-          </button>
-        </div>
+        {/* Mobile Hamburger Button */}
+        <button
+          className="md:hidden text-amber w-9 h-9 rounded-full glass border border-gold/30 flex items-center justify-center text-lg focus:outline-none"
+          onClick={() => setOpen((v) => !v)}
+          aria-label="Toggle Menu"
+        >
+          {open ? '✕' : '☰'}
+        </button>
       </div>
 
-      <div className={`md:hidden glass border-t border-accent overflow-hidden transition-all duration-300 ${open ? 'max-h-96' : 'max-h-0 border-t-0'}`}>
-        <div className="px-5 py-4 flex flex-col gap-4">
+      {/* Mobile Navigation Drawer */}
+      <div
+        className={`md:hidden glass border-t border-gold/15 overflow-hidden transition-all duration-300 ${
+          open ? 'max-h-64 opacity-100' : 'max-h-0 opacity-0'
+        }`}
+      >
+        <div className="px-6 py-4 flex flex-col gap-3">
           {NAV.map((item) => (
             <Link
               key={item.href}
               href={item.href}
               onClick={() => setOpen(false)}
-              className={pathname === item.href ? 'text-accent-bright' : 'text-muted hover:text-accent-bright'}
+              className={`font-devanagari text-base py-1 transition-colors ${
+                pathname === item.href
+                  ? 'text-amber font-bold'
+                  : 'text-cream/80 hover:text-parchment'
+              }`}
             >
               {item.label}
             </Link>
           ))}
-          <div className="ink-divider" />
-          <div className="flex flex-wrap gap-2">
-            {THEMES.map((t) => (
-              <button
-                key={t.id}
-                onClick={() => setTheme(t.id)}
-                className={`text-xs px-3 py-1.5 rounded-full border border-accent ${theme === t.id ? 'text-accent-bright' : 'text-muted'}`}
-              >
-                {t.label}
-              </button>
-            ))}
-          </div>
         </div>
       </div>
     </header>

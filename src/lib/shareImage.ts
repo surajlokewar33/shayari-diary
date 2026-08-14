@@ -155,7 +155,7 @@ export async function generateShareImage(poem: Poem): Promise<Blob> {
 
   ctx.fillStyle = COLORS.gold;
   ctx.font = `600 32px ${bodyFont}`;
-  ctx.fillText('सूरु 33 · शाइर', centerX, height - 90);
+  ctx.fillText('सूरु शाइर · suru_33', centerX, height - 90);
 
   return new Promise((resolve, reject) => {
     canvas.toBlob((blob) => {
@@ -176,7 +176,7 @@ export async function shareOrDownloadImage(poem: Poem) {
         await (navigator as any).share({
           files: [file],
           title: poem.title,
-          text: `"${poem.title}" — सूरु 33 · शाइर`,
+          text: `"${poem.title}" — सूरु शाइर · suru_33`,
         });
         return;
       } catch {

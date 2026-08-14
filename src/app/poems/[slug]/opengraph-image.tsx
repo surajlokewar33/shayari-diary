@@ -56,7 +56,7 @@ export async function buildOgImage(slug: string): Promise<ImageResponse> {
             justifyContent: 'center',
           }}
         >
-          सूरु 33 · शाइर
+          सूरु शाइर · suru_33
         </div>
       ),
       { width: 1200, height: 630 }
@@ -65,7 +65,7 @@ export async function buildOgImage(slug: string): Promise<ImageResponse> {
 
   const p: any = poem;
   const bodyPreview = truncate(p.body || '', 160);
-  const brandText = 'सूरु 33 · शाइर';
+  const brandText = 'सूरु शाइर · suru_33';
   const allDevanagariText = `${brandText}${p.language === 'Hindi' ? bodyPreview + p.title : ''}`;
   const allUrduText = p.language === 'Urdu' ? bodyPreview + p.title : '';
 
@@ -203,4 +203,8 @@ export async function buildOgImage(slug: string): Promise<ImageResponse> {
       fonts: fonts.length > 0 ? fonts : undefined,
     }
   );
+}
+
+export default async function Image({ params }: { params: { slug: string } }) {
+  return buildOgImage(params.slug);
 }
