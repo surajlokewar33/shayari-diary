@@ -3,6 +3,7 @@ import mongoose, { Schema, models, model } from 'mongoose';
 export const CATEGORIES = [
   'Urdu Shayari',
   'Hindi Poems',
+  'Marathi',
   'Ghazal',
   'Nazm',
   'Sher',
@@ -26,8 +27,8 @@ const PoemSchema = new Schema(
     body: { type: String, required: true },
     language: {
       type: String,
-      enum: ['English', 'Hindi', 'Urdu'],
-      default: 'English',
+      enum: ['English', 'Hindi', 'Urdu', 'Marathi'],
+      default: 'Hindi',
     },
     category: {
       type: String,

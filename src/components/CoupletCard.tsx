@@ -15,7 +15,7 @@ const CURATED_SHERS = [
   },
   {
     sher: 'ये दिन भी कभी गुज़रेगा,\nमेरे लिखे शेर रहेंगे |',
-    author: 'सूरु 33',
+    author: 'मुरीद शाइर',
     tag: 'यादें',
   },
   {
@@ -25,12 +25,12 @@ const CURATED_SHERS = [
   },
   {
     sher: 'कुछ ख्वाब अधूरे ही अच्छे होते हैं,\nकम से कम सोने की वजह तो बने रहते हैं।',
-    author: 'सूरु शाइर',
+    author: 'मुरीद शाइर',
     tag: 'ख्वाब',
   },
   {
     sher: 'रात की तन्हाई में जब क़लम उठाई हमने,\nहर एक ख़याल तेरा मिसरा बन गया।',
-    author: 'सूरु 33',
+    author: 'मुरीद शाइर',
     tag: 'तन्हाई',
   },
 ];
@@ -56,7 +56,7 @@ export default function CoupletCard({
   }
 
   async function handleCopy() {
-    await navigator.clipboard.writeText(`${current.sher}\n\n— ${current.author} (suru_33)`);
+    await navigator.clipboard.writeText(`${current.sher}\n\n— ${current.author}`);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   }
@@ -91,9 +91,8 @@ export default function CoupletCard({
               &ldquo;{current.sher}&rdquo;
             </blockquote>
 
-            <p className="font-ui text-xs sm:text-sm text-amber mt-2 flex items-center gap-1.5 font-medium">
+            <p className="font-devanagari text-sm text-amber mt-2 flex items-center gap-1.5 font-medium">
               <span>— {current.author}</span>
-              <span className="text-muted text-xs font-normal">(suru_33)</span>
             </p>
           </div>
         </div>

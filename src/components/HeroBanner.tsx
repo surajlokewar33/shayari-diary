@@ -74,15 +74,14 @@ export default function HeroBanner() {
           {/* Top Pill Badge */}
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold/10 border border-gold/35 text-amber text-xs tracking-wider uppercase font-ui mb-5 shadow-sm">
             <span className="text-gold">✦</span>
-            <span>सुरज लोकेवार की शायरी डायरी</span>
+            <span>मुरीद शाइर की डायरी</span>
             <span className="text-gold">✦</span>
           </div>
 
-          {/* Bilingual Masthead Lockup: suru_33 / सूरु शाइर */}
-          <h1 className="flex flex-wrap items-center justify-center gap-2.5 sm:gap-4 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-parchment drop-shadow-md mb-3">
-            <span className="font-ui text-amber">suru_33</span>
-            <span className="text-muted/60 text-3xl sm:text-4xl md:text-5xl font-light">/</span>
-            <span className="font-devanagari text-parchment">सूरु शाइर</span>
+          {/* Masthead: मुरीद शाइर */}
+          <h1 className="flex flex-wrap items-center justify-center gap-3 text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight text-parchment drop-shadow-md mb-3 font-devanagari">
+            <span className="text-parchment">मुरीद</span>
+            <span className="text-amber">शाइर</span>
           </h1>
 
           {/* English Subtitle */}

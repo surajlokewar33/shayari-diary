@@ -11,6 +11,7 @@ export const revalidate = 0;
 const CATEGORY_ICONS: Record<string, string> = {
   'Urdu Shayari': '🖋️',
   'Hindi Poems': '📜',
+  'Marathi': '🌺',
   'Ghazal': '🌙',
   'Nazm': '🎋',
   'Sher': '✒️',
@@ -57,7 +58,7 @@ export default async function HomePage() {
     .filter((p: any) => p.body && p.body.length > 20)
     .map((p: any) => ({
       sher: p.body.split('\n').filter(Boolean).slice(0, 2).join('\n'),
-      author: p.author || 'सूरु शाइर',
+      author: p.author || 'मुरीद शाइर',
       tag: p.category,
     }));
 
@@ -132,7 +133,7 @@ export default async function HomePage() {
               <div className="flex flex-wrap items-center justify-between gap-4 pt-5 border-t border-gold/20">
                 <p className="text-xs sm:text-sm text-amber font-ui flex items-center gap-2">
                   <span>✍️ रचयिता:</span>
-                  <span className="font-semibold">{featured.author || 'सुरज लोकेवार (suru_33)'}</span>
+                  <span className="font-semibold">{featured.author || 'सुरज लोकेवार (मुरीद शाइर)'}</span>
                 </p>
 
                 <Link
@@ -188,7 +189,7 @@ export default async function HomePage() {
           <div className="w-28 h-28 sm:w-36 sm:h-36 rounded-full overflow-hidden border-2 border-gold shrink-0 shadow-glow relative">
             <img
               src="/profile.jpeg"
-              alt="Suraj Lokewar (suru_33)"
+              alt="Suraj Lokewar (मुरीद शाइर)"
               className="w-full h-full object-cover"
             />
           </div>
@@ -198,7 +199,7 @@ export default async function HomePage() {
               शायर का परिचय
             </div>
             <h3 className="font-devanagari text-2xl sm:text-3xl font-bold text-parchment mb-3">
-              सुरज लोकेवार <span className="text-amber font-ui text-lg font-normal">(suru_33)</span>
+              सुरज लोकेवार <span className="text-amber font-devanagari text-xl font-normal">(मुरीद शाइर)</span>
             </h3>
             <p className="font-devanagari text-base sm:text-lg text-cream leading-relaxed mb-6">
               हर शब्द एक एहसास है, हर शेर एक कहानी। यह डायरी उन अनकहे जज़्बातों का ठिकाना है जो अक्सर ख़ामोशी में गूंजते हैं।

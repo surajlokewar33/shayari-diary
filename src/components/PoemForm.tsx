@@ -7,7 +7,7 @@ import { Poem, CATEGORIES } from '@/lib/types';
 type FormState = {
   title: string;
   body: string;
-  language: 'English' | 'Hindi' | 'Urdu';
+  language: 'English' | 'Hindi' | 'Urdu' | 'Marathi';
   category: string;
   tags: string;
   author: string;
@@ -24,10 +24,10 @@ export default function PoemForm({ initial, poemId }: { initial?: Partial<Poem>;
   const [form, setForm] = useState<FormState>({
     title: initial?.title || '',
     body: initial?.body || '',
-    language: initial?.language || 'English',
+    language: initial?.language || 'Hindi',
     category: initial?.category || CATEGORIES[0],
     tags: initial?.tags?.join(', ') || '',
-    author: initial?.author || 'Anonymous',
+    author: initial?.author || 'मुरीद शाइर',
     audioUrl: initial?.audioUrl || '',
     videoUrl: initial?.videoUrl || '',
     ambience: initial?.ambience || 'petals',
@@ -58,22 +58,29 @@ export default function PoemForm({ initial, poemId }: { initial?: Partial<Poem>;
         body: JSON.stringify(payload),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Something went wrong');
+      if (!res.ok) {
+        throw new Error(data.error || 'Failed to save poem');
+      }
       router.push('/admin');
       router.refresh();
     } catch (err: any) {
-      setError(err.message);
+      setError(err.message || 'Something went wrong');
     } finally {
       setSaving(false);
     }
   }
 
   return (
-    <form onSubmit={handleSubmit} className="glass rounded-2xl p-6 space-y-5">
+    <form onSubmit={handleSubmit} className="space-y-6 max-w-3xl">
+      {error && (
+        <div className="bg-red-500/10 border border-red-500/30 text-red-400 p-3 rounded-lg text-sm">{error}</div>
+      )}
+
       <div>
         <label className="text-xs text-muted font-mono block mb-1">Title</label>
         <input
           required
+          type="text"
           value={form.title}
           onChange={(e) => update('title', e.target.value)}
           className="w-full bg-transparent border border-accent rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent-bright"
@@ -99,9 +106,10 @@ export default function PoemForm({ initial, poemId }: { initial?: Partial<Poem>;
             onChange={(e) => update('language', e.target.value as FormState['language'])}
             className="w-full bg-ink border border-accent rounded-lg px-3 py-2 text-sm focus:outline-none"
           >
-            <option>English</option>
             <option>Hindi</option>
             <option>Urdu</option>
+            <option>Marathi</option>
+            <option>English</option>
           </select>
         </div>
         <div>

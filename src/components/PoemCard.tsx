@@ -4,6 +4,7 @@ import { Poem, readingTime, CATEGORY_LABELS } from '@/lib/types';
 const CATEGORY_ICONS: Record<string, string> = {
   'Urdu Shayari': '🖋️',
   'Hindi Poems': '📜',
+  'Marathi': '🌺',
   'Ghazal': '🌙',
   'Nazm': '🎋',
   'Sher': '✒️',
@@ -82,7 +83,7 @@ export default function PoemCard({ poem }: { poem: Poem }) {
         <div className="flex items-center justify-between text-xs text-muted font-ui">
           <span className="flex items-center gap-1.5 text-cream/75 group-hover:text-amber transition-colors font-medium">
             <span>✍️</span>
-            <span>{poem.author || 'सुरज लोकेवार (suru_33)'}</span>
+            <span>{poem.author || 'सुरज लोकेवार (मुरीद शाइर)'}</span>
           </span>
 
           <span className="flex items-center gap-1 text-rose font-semibold">

@@ -56,7 +56,7 @@ export async function buildOgImage(slug: string): Promise<ImageResponse> {
             justifyContent: 'center',
           }}
         >
-          सूरु शाइर · suru_33
+          मुरीद शाइर
         </div>
       ),
       { width: 1200, height: 630 }
@@ -65,8 +65,8 @@ export async function buildOgImage(slug: string): Promise<ImageResponse> {
 
   const p: any = poem;
   const bodyPreview = truncate(p.body || '', 160);
-  const brandText = 'सूरु शाइर · suru_33';
-  const allDevanagariText = `${brandText}${p.language === 'Hindi' ? bodyPreview + p.title : ''}`;
+  const brandText = 'मुरीद शाइर';
+  const allDevanagariText = `${brandText}${p.language === 'Hindi' || p.language === 'Marathi' ? bodyPreview + p.title : ''}`;
   const allUrduText = p.language === 'Urdu' ? bodyPreview + p.title : '';
 
   const [devanagariFont, urduFont, displayFont] = await Promise.all([

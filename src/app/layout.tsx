@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { Inter, Noto_Serif_Devanagari } from 'next/font/google';
-import Script from 'next/script';
 import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -22,26 +21,26 @@ const devanagari = Noto_Serif_Devanagari({
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://suraurshayari.vercel.app'),
-  title: 'suru_33 / सूरु शाइर — A Digital Shayari Diary',
-  description: 'suru_33 / सूरु शाइर — हर शब्द एक एहसास, हर शेर एक कहानी। उर्दू शायरी, हिंदी कविताएँ, ग़ज़लें और नज़्में।',
+  title: 'मुरीद शाइर — A Digital Shayari Diary',
+  description: 'मुरीद शाइर — हर शब्द एक एहसास, हर शेर एक कहानी। उर्दू शायरी, हिंदी कविताएँ, मराठी कविता, ग़ज़लें और नज़्में।',
   openGraph: {
-    title: 'suru_33 / सूरु शाइर — A Digital Shayari Diary',
-    description: 'suru_33 / सूरु शाइर — हर शब्द एक एहसास, हर शेर एक कहानी। उर्दू शायरी, हिंदी कविताएँ, ग़ज़लें और नज़्में।',
+    title: 'मुरीद शाइर — A Digital Shayari Diary',
+    description: 'मुरीद शाइर — हर शब्द एक एहसास, हर शेर एक कहानी। उर्दू शायरी, हिंदी कविताएँ, मराठी कविता, ग़ज़लें और नज़्में।',
     type: 'website',
-    siteName: 'suru_33 / सूरु शाइर',
+    siteName: 'मुरीद शाइर',
     images: [
       {
         url: '/hero_banner.jpg',
         width: 1200,
         height: 675,
-        alt: 'suru_33 / सूरु शाइर — A Digital Shayari Diary',
+        alt: 'मुरीद शाइर — A Digital Shayari Diary',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'suru_33 / सूरु शाइर — A Digital Shayari Diary',
-    description: 'suru_33 / सूरु शाइर — हर शब्द एक एहसास, हर शेर एक कहानी। उर्दू शायरी, हिंदी कविताएँ, ग़ज़लें और नज़्में।',
+    title: 'मुरीद शाइर — A Digital Shayari Diary',
+    description: 'मुरीद शाइर — हर शब्द एक एहसास, हर शेर एक कहानी। उर्दू शायरी, हिंदी कविताएँ, मराठी कविता, ग़ज़लें और नज़्में।',
     images: ['/hero_banner.jpg'],
   },
 };
@@ -58,11 +57,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <main className="min-h-screen flex-1">{children}</main>
           <Footer />
         </ThemeProvider>
-        {/* Load official Instagram embed script once globally */}
-        <Script
-          src="https://www.instagram.com/embed.js"
-          strategy="lazyOnload"
-        />
       </body>
     </html>
   );

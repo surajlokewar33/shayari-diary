@@ -19,7 +19,7 @@ export default function ContactPage() {
         <div className="relative inline-block mb-6">
           <img
             src="/profile.jpeg"
-            alt="सुरज लोकेवार (suru_33)"
+            alt="सुरज लोकेवार (मुरीद शाइर)"
             className="w-32 h-32 sm:w-40 sm:h-40 rounded-full object-cover mx-auto border-2 border-gold shadow-glow"
           />
           <div className="absolute bottom-1 right-2 w-7 h-7 rounded-full bg-gold text-ink text-xs font-bold flex items-center justify-center border-2 border-ink shadow-sm">
@@ -31,8 +31,8 @@ export default function ContactPage() {
         <h1 className="font-devanagari text-3xl sm:text-4xl md:text-5xl font-bold text-parchment mb-2">
           सुरज लोकेवार
         </h1>
-        <p className="text-amber font-ui text-sm sm:text-base font-semibold tracking-wider uppercase mb-6">
-          suru_33 · शाइर एवं लेखक
+        <p className="text-amber font-devanagari text-lg sm:text-xl font-semibold tracking-wider mb-6">
+          मुरीद शाइर · लेखक एवं रचनाकार
         </p>
 
         {/* Bio */}

@@ -43,7 +43,7 @@ export default function TypewriterHero() {
     <section className="relative overflow-hidden">
       <AmbientCanvas mode="petals" />
       <div className="relative z-10 mx-auto max-w-4xl px-6 py-35 md:py-36 text-center">
-        <p className="font-mono text-xs tracking-[0.5em] uppercase text-accent mb-6"> सूरु शाइर</p>
+        <p className="font-mono text-xs tracking-[0.5em] uppercase text-accent mb-6"> मुरीद शाइर</p>
         <h1 className="font-display text-6xl md:text-6xl leading-[3] text-parchment">
           ये दिन भी कभी गुज़रेगा ,<br className="hidden md:block" />
 <span className="block mt-8">मेरे लिखे शेर रहेंगे |</span>

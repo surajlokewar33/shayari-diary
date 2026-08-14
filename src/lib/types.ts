@@ -10,7 +10,7 @@ export type Poem = {
   title: string;
   slug: string;
   body: string;
-  language: 'English' | 'Hindi' | 'Urdu';
+  language: 'English' | 'Hindi' | 'Urdu' | 'Marathi';
   category: string;
   tags: string[];
   author: string;
@@ -31,6 +31,7 @@ export type Poem = {
 export const CATEGORIES = [
   'Urdu Shayari',
   'Hindi Poems',
+  'Marathi',
   'Ghazal',
   'Nazm',
   'Sher',
@@ -41,6 +42,7 @@ export const CATEGORIES = [
 export const CATEGORY_LABELS: Record<(typeof CATEGORIES)[number], string> = {
   'Urdu Shayari': 'उर्दू शायरी',
   'Hindi Poems': 'हिंदी कविताएँ',
+  'Marathi': 'मराठी कविता',
   'Ghazal': 'ग़ज़ल',
   'Nazm': 'नज़्म',
   'Sher': 'शेर',

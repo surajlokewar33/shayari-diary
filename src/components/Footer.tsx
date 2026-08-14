@@ -21,12 +21,8 @@ export default function Footer() {
         {/* Brand Column */}
         <div className="space-y-4">
           <div className="flex items-center gap-2.5">
-            <span className="font-ui text-lg font-bold text-parchment">
-              suru_33
-            </span>
-            <span className="text-muted text-sm">/</span>
-            <span className="font-devanagari text-xl font-bold text-parchment">
-              सूरु शाइर
+            <span className="font-devanagari text-2xl font-bold text-parchment">
+              मुरीद शाइर
             </span>
           </div>
 
@@ -35,7 +31,7 @@ export default function Footer() {
           </p>
 
           <p className="font-ui text-xs text-muted tracking-wide">
-            By Suraj Lokewar (suru_33)
+            By Suraj Lokewar (मुरीद शाइर)
           </p>
         </div>
 
@@ -114,7 +110,7 @@ export default function Footer() {
       {/* Distinct Bottom Copyright Strip */}
       <div className="border-t border-gold/15 py-6 text-center bg-black/30">
         <p className="font-ui text-xs text-muted">
-          &copy; {new Date().getFullYear()} <span className="text-parchment font-medium">suru_33 / सूरु शाइर</span>. All rights reserved.
+          &copy; {new Date().getFullYear()} <span className="text-parchment font-medium font-devanagari">मुरीद शाइर</span>. All rights reserved.
         </p>
       </div>
     </footer>

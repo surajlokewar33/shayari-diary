@@ -9,40 +9,70 @@ export interface ReelItem {
 
 /**
  * =========================================================================
- * ADD NEW INSTAGRAM REELS HERE
- * =========================================================================
- * Simply add a new object to this array with:
- * - id: Unique string identifier
- * - url: The Instagram Reel URL (e.g., https://www.instagram.com/suru33_/reel/DYRuliXocoO/)
- * - title: Title or first line in Hindi/Devanagari
- * - caption: Short description or poetic note (optional)
- * - date: Date of posting (optional)
- * - tags: Array of topic tags (optional)
+ * ALL OFFICIAL INSTAGRAM REELS & POSTS — मुरीद शाइर (@suru33_)
  * =========================================================================
  */
 export const REELS_DATA: ReelItem[] = [
   {
-    id: 'reel-suru-1',
-    url: 'https://www.instagram.com/suru33_/reel/DYRuliXocoO/',
-    title: 'सूरु शाइर की प्रस्तुति — काव्य रील',
-    caption: 'हर लफ़्ज़ में एक दास्ताँ, हर शेर में एक राज़ है। आवाज़ और जज़्बातों की जुगलबंदी।',
-    date: '2024-08-14',
-    tags: ['शायरी', 'उर्दू_शायरी', 'suru33', 'सूरु_शाइर'],
+    id: 'reel-ranjhana',
+    url: 'https://www.instagram.com/reel/DYRuIiXocoO/',
+    title: 'राँझणा रीमिक्स शायरी',
+    caption: 'राँझणा रीमिक्स शायरी ❤️‍🩹 — आवाज़ और जज़्बातों की जुगलबंदी।',
+    date: '2026-05-13',
+    tags: ['शायरी', 'ट्रेंडिंग', 'love', 'राँझणा', 'sad'],
   },
   {
-    id: 'reel-2',
-    url: 'https://www.instagram.com/reel/C1x_K9qP8_y/',
-    title: 'ये दिन भी कभी गुज़रेगा, मेरे लिखे शेर रहेंगे...',
-    caption: 'दर्द की आखिरी सीढ़ी पर लिखी कुछ अनकही पंक्तियाँ।',
-    date: '2024-01-15',
-    tags: ['ग़ज़ल', 'यादें', 'सूरु_शाइर'],
+    id: 'reel-shehzadi',
+    url: 'https://www.instagram.com/reel/DP2r2b7kVsI/',
+    title: 'शहज़ादी',
+    caption: 'शहज़ादी — एकतरफ़ा मोहब्बत और दिल के अनकहे जज़्बातों का इज़हार।',
+    date: '2025-10-15',
+    tags: [
+      'शायरी',
+      'love',
+      'reels',
+      'ट्रेंडिंग',
+      'viralshayari',
+      'onesidedlove',
+      'ग़ज़ल',
+      'poet',
+      'poetry',
+      'मोहब्बत',
+      'viral',
+      'shayaris',
+    ],
   },
   {
-    id: 'reel-3',
-    url: 'https://www.instagram.com/reel/C0a_M3rT9_z/',
-    title: 'लफ़्ज़ों में समेट रखी है हमने दास्ताँ अपनी...',
-    caption: 'जो दिल ने महसूस किया, काग़ज़ ने बयां कर दिया।',
-    date: '2023-12-10',
-    tags: ['नज़्म', 'एहसास', 'कविता'],
+    id: 'post-mureed-1',
+    url: 'https://www.instagram.com/p/DUN8edlCH3A/',
+    title: 'मुरीद शाइर की शायरी',
+    caption: 'मुरीद शाइर की कलम से दिल को छू लेने वाली रचना।',
+    date: '2026-02-01',
+    tags: ['शायरी', 'काव्य', 'मुरीद_शाइर'],
+  },
+  {
+    id: 'reel-nazm-mohabbat',
+    url: 'https://www.instagram.com/reel/DRSf3j4DIN4/',
+    title: 'नज़्म मोहब्बत',
+    caption: 'नज़्म मोहब्बत — दिल की गहराइयों से निकली कुछ अनकही दास्तानें।',
+    date: '2025-11-20',
+    tags: [
+      'शायरी',
+      'viral',
+      'reels',
+      'ट्रेंडिंग',
+      'viralshayari',
+      'onesidedlove',
+      'trending',
+      'ग़ज़ल',
+    ],
+  },
+  {
+    id: 'reel-love-shayari',
+    url: 'https://www.instagram.com/reel/DV3YHYIiC4b/',
+    title: 'लव शायरी',
+    caption: 'लव शायरी — मोहब्बत के एहसास और नई उम्मीदों का खूबसूरत कलाम।',
+    date: '2026-03-14',
+    tags: ['viral', 'शायरी', 'love', 'new', 'collageboy'],
   },
 ];

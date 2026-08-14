@@ -35,11 +35,11 @@ export default function Header() {
       }`}
     >
       <div className="mx-auto max-w-6xl px-4 sm:px-6 md:px-8 flex items-center justify-between">
-        {/* Brand Lockup: suru_33 / सूरु शाइर */}
+        {/* Brand Lockup: मुरीद शाइर */}
         <Link
           href="/"
           className="flex items-center gap-3 group min-h-[44px] py-1"
-          aria-label="suru_33 / सूरु शाइर Home"
+          aria-label="मुरीद शाइर Home"
         >
           <div className="w-9 h-9 rounded-full bg-gold/10 border border-gold/40 flex items-center justify-center text-gold group-hover:border-amber group-hover:scale-105 transition-all shadow-sm">
             <svg
@@ -59,13 +59,9 @@ export default function Header() {
             </svg>
           </div>
 
-          <div className="flex items-baseline gap-1.5">
-            <span className="font-ui text-base font-bold tracking-tight text-parchment group-hover:text-amber transition-colors">
-              suru_33
-            </span>
-            <span className="text-muted text-xs">/</span>
-            <span className="font-devanagari text-lg font-bold text-parchment group-hover:text-amber transition-colors">
-              सूरु शाइर
+          <div className="flex items-baseline">
+            <span className="font-devanagari text-xl font-bold tracking-tight text-parchment group-hover:text-amber transition-colors">
+              मुरीद शाइर
             </span>
           </div>
         </Link>

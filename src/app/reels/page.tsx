@@ -4,8 +4,8 @@ import InstagramEmbed from '@/components/InstagramEmbed';
 import { REELS_DATA } from '@/data/reels';
 
 export const metadata: Metadata = {
-  title: 'काव्य रील्स · Instagram Reels — suru_33 / सूरु शाइर',
-  description: 'Instagram पर प्रस्तुत स्वरचित शायरी, नज़्में और भावपूर्ण वीडियो कलाम। सूरु शाइर (@suru33_) की सभी रील्स देखें।',
+  title: 'काव्य रील्स · Instagram Reels — मुरीद शाइर',
+  description: 'Instagram पर प्रस्तुत स्वरचित शायरी, नज़्में और भावपूर्ण वीडियो कलाम। मुरीद शाइर (@suru33_) की सभी रील्स देखें।',
 };
 
 const INSTAGRAM_PROFILE = 'https://www.instagram.com/suru33_?igsh=NnNhb2o4M2w5a2Zs';
@@ -108,7 +108,7 @@ export default function ReelsPage() {
             <div className="pt-4 mt-4 border-t border-gold/15 flex items-center justify-between">
               <span className="text-xs font-ui text-muted flex items-center gap-1.5">
                 <span>✍️</span>
-                <span>सूरु शाइर (@suru33_)</span>
+                <span>मुरीद शाइर (@suru33_)</span>
               </span>
 
               <a

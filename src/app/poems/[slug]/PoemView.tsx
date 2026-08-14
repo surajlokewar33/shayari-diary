@@ -48,7 +48,7 @@ export default function PoemView({ poem, related }: { poem: Poem; related: Poem[
   }
 
   async function handleCopy() {
-    await navigator.clipboard.writeText(`${poem.title}\n\n${poem.body}\n\n— ${poem.author || 'सुरज लोकेवार'} (suru_33)`);
+    await navigator.clipboard.writeText(`${poem.title}\n\n${poem.body}\n\n— ${poem.author || 'सुरज लोकेवार (मुरीद शाइर)'}`);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   }
@@ -57,7 +57,7 @@ export default function PoemView({ poem, related }: { poem: Poem; related: Poem[
     if (typeof navigator !== 'undefined' && (navigator as any).share) {
       navigator.share({
         title: poem.title,
-        text: `"${poem.title}" — suru_33 / सूरु शाइर`,
+        text: `"${poem.title}" — मुरीद शाइर`,
         url: window.location.href,
       }).catch(() => {});
     }
@@ -116,7 +116,7 @@ export default function PoemView({ poem, related }: { poem: Poem; related: Poem[
 
           <p className="text-sm font-ui text-amber flex items-center gap-2 mb-8 font-medium">
             <span>✍️</span>
-            <span>{poem.author || 'सुरज लोकेवार (suru_33)'}</span>
+            <span>{poem.author || 'सुरज लोकेवार (मुरीद शाइर)'}</span>
           </p>
 
           {/* The Poem Verses (constrained to max-w-2xl for optimal reading length) */}
@@ -152,7 +152,7 @@ export default function PoemView({ poem, related }: { poem: Poem; related: Poem[
           {/* Signature Divider */}
           <div className="ink-divider-ornate my-8" />
           <div className="flex items-center justify-between text-xs font-ui text-muted mb-8">
-            <span className="italic">— suru_33 / सूरु शाइर</span>
+            <span className="italic font-devanagari">— मुरीद शाइर</span>
             <span className="text-gold">❦ ❦ ❦</span>
           </div>
 
