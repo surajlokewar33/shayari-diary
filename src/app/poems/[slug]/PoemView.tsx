@@ -7,6 +7,12 @@ import { isFavorite, toggleFavorite, hasLiked, setLiked } from '@/lib/favorites'
 import AmbientCanvas from '@/components/AmbientCanvas';
 import PoemCard from '@/components/PoemCard';
 import InstagramEmbed from '@/components/InstagramEmbed';
+import { motion, useReducedMotion, useAnimate } from 'framer-motion';
+import { fadeUpVariants, transition as motionTransition, likeBounceKeyframes, likeBounceTransition } from '@/lib/motion';
+import AnimatedGrid from '@/components/AnimatedGrid';
+import ClipReveal from '@/components/ClipReveal';
+import InkReveal from '@/components/InkReveal';
+import PageTurnLink from '@/components/PageTurnLink';
 
 function getYouTubeEmbedUrl(url: string): string | null {
   const match = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
@@ -18,6 +24,10 @@ export default function PoemView({ poem, related }: { poem: Poem; related: Poem[
   const [liked, setLikedState] = useState(hasLiked(poem._id));
   const [fav, setFav] = useState(isFavorite(poem._id));
   const [copied, setCopied] = useState(false);
+  const [likeFlash, setLikeFlash] = useState(false);
+  const [favFlash, setFavFlash] = useState(false);
+  const prefersReduced = useReducedMotion();
+  const [likeRef, animateLike] = useAnimate();
 
   const isUrdu = poem.language === 'Urdu';
   const categoryLabel = CATEGORY_LABELS[poem.category as keyof typeof CATEGORY_LABELS] ?? poem.category;
@@ -30,12 +40,19 @@ export default function PoemView({ poem, related }: { poem: Poem; related: Poem[
     setLikedState(nextLiked);
     setLiked(poem._id, nextLiked);
     setLikes((l) => l + delta);
+    if (nextLiked) {
+      setLikeFlash(true);
+      setTimeout(() => setLikeFlash(false), 500);
+    }
     try {
       await fetch(`/api/poems/${poem._id}/like`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ delta }),
       });
+      if (!prefersReduced) {
+        animateLike(likeRef.current, likeBounceKeyframes, likeBounceTransition);
+      }
     } catch {
       setLikedState(!nextLiked);
       setLiked(poem._id, !nextLiked);
@@ -44,7 +61,12 @@ export default function PoemView({ poem, related }: { poem: Poem; related: Poem[
   }
 
   function handleFavorite() {
-    setFav(toggleFavorite(poem._id));
+    const nextFav = toggleFavorite(poem._id);
+    setFav(nextFav);
+    if (nextFav) {
+      setFavFlash(true);
+      setTimeout(() => setFavFlash(false), 500);
+    }
   }
 
   async function handleCopy() {
@@ -64,7 +86,12 @@ export default function PoemView({ poem, related }: { poem: Poem; related: Poem[
   }
 
   return (
-    <article className="relative min-h-screen py-8 md:py-16">
+    <motion.article
+      className="relative min-h-screen py-8 md:py-16"
+      initial={prefersReduced ? undefined : 'hidden'}
+      animate={prefersReduced ? undefined : 'visible'}
+      variants={prefersReduced ? undefined : fadeUpVariants}
+    >
       {/* Background Ambience Animation */}
       <div className="fixed inset-0 pointer-events-none z-0 opacity-40">
         <AmbientCanvas mode={poem.ambience} />
@@ -76,6 +103,18 @@ export default function PoemView({ poem, related }: { poem: Poem; related: Poem[
           {/* Decorative watermark quote mark */}
           <div className="absolute top-6 right-8 text-8xl sm:text-9xl font-serif text-gold/5 pointer-events-none select-none">
             ❝
+          </div>
+
+          {/* Parchment Corner Dog-Ear Fold on Favorite */}
+          <div
+            className={`absolute top-0 right-0 w-10 h-10 pointer-events-none transition-all duration-500 z-20 ${
+              fav ? 'opacity-100 scale-100 translate-x-0 translate-y-0' : 'opacity-0 scale-50 translate-x-3 -translate-y-3'
+            }`}
+          >
+            <div
+              className="w-full h-full bg-gradient-to-bl from-gold/50 via-gold/30 to-maroon-wine shadow-lg border-b border-l border-gold/60"
+              style={{ clipPath: 'polygon(0 0, 100% 0, 100% 100%)' }}
+            />
           </div>
 
           {/* Ornate Corner Flourishes */}
@@ -119,7 +158,7 @@ export default function PoemView({ poem, related }: { poem: Poem; related: Poem[
             <span>{poem.author || 'सुरज लोकेवार (मुरीद शाइर)'}</span>
           </p>
 
-          {/* The Poem Verses (constrained to max-w-2xl for optimal reading length) */}
+          {/* The Poem Verses with Ink handwriting wipe */}
           <div
             dir={isUrdu ? 'rtl' : 'ltr'}
             className={`poem-body my-10 text-parchment leading-[2.3] max-w-2xl ${
@@ -128,7 +167,7 @@ export default function PoemView({ poem, related }: { poem: Poem; related: Poem[
                 : 'font-devanagari text-xl sm:text-2xl pl-6 border-l-2 border-gold/40'
             }`}
           >
-            {poem.body}
+            <InkReveal text={poem.body} isUrdu={isUrdu} />
           </div>
 
           {/* Optional Video / Instagram Reel Embed */}
@@ -158,25 +197,30 @@ export default function PoemView({ poem, related }: { poem: Poem; related: Poem[
 
           {/* Action Toolbar */}
           <div className="flex flex-wrap items-center gap-3 pt-6 border-t border-gold/15">
-            <button
-              onClick={handleLike}
-              className={`btn-ghost text-xs font-ui gap-2 min-h-[44px] ${
-                liked ? 'border-rose text-rose bg-rose/15' : ''
-              }`}
-            >
-              <span>{liked ? '♥' : '♡'}</span>
-              <span>{likes} पसंद</span>
-            </button>
+            <ClipReveal triggered={likeFlash} color="rose">
+              <button
+                ref={likeRef}
+                onClick={handleLike}
+                className={`btn-ghost text-xs font-ui gap-2 min-h-[44px] ${
+                  liked ? 'border-rose text-rose bg-rose/15' : ''
+                }`}
+              >
+                <span>{liked ? '♥' : '♡'}</span>
+                <span>{likes} पसंद</span>
+              </button>
+            </ClipReveal>
 
-            <button
-              onClick={handleFavorite}
-              className={`btn-ghost text-xs font-ui gap-2 min-h-[44px] ${
-                fav ? 'border-gold text-amber bg-gold/15' : ''
-              }`}
-            >
-              <span>{fav ? '★' : '☆'}</span>
-              <span>{fav ? 'सहेजा गया' : 'सहेजें'}</span>
-            </button>
+            <ClipReveal triggered={favFlash} color="gold">
+              <button
+                onClick={handleFavorite}
+                className={`btn-ghost text-xs font-ui gap-2 min-h-[44px] ${
+                  fav ? 'border-gold text-amber bg-gold/15' : ''
+                }`}
+              >
+                <span>{fav ? '★' : '☆'}</span>
+                <span>{fav ? 'सहेजा गया' : 'सहेजें'}</span>
+              </button>
+            </ClipReveal>
 
             <button
               onClick={handleCopy}
@@ -227,14 +271,16 @@ export default function PoemView({ poem, related }: { poem: Poem; related: Poem[
               </Link>
             </div>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            <AnimatedGrid className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8" staggerLimit={3}>
               {related.map((p) => (
-                <PoemCard key={p._id} poem={p} />
+                <PageTurnLink key={p._id} href={`/poems/${p.slug}`}>
+                  <PoemCard poem={p} />
+                </PageTurnLink>
               ))}
-            </div>
+            </AnimatedGrid>
           </section>
         )}
       </div>
-    </article>
+    </motion.article>
   );
 }

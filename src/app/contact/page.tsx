@@ -1,4 +1,14 @@
 import Link from 'next/link';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'शायर परिचय · सुरज लोकेवार',
+  description: 'सुरज लोकेवार (मुरीद शाइर) — उर्दू शायरी, हिंदी कविता और मराठी काव्य के रचनाकार। Instagram @suru33_ पर जुड़ें।',
+  openGraph: {
+    title: 'शायर परिचय — सुरज लोकेवार (मुरीद शाइर)',
+    description: 'उर्दू शायरी, हिंदी कविता और मराठी काव्य के रचनाकार।',
+  },
+};
 
 const SOCIAL_LINKS = {
   instagram: 'https://www.instagram.com/suru33_?igsh=NnNhb2o4M2w5a2Zs',

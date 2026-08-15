@@ -3,6 +3,7 @@ import { dbConnect } from '@/lib/mongodb';
 import Poem from '@/lib/models/Poem';
 import PoemView from './PoemView';
 import type { Metadata } from 'next';
+import JsonLd, { poemSchema } from '@/components/JsonLd';
 
 export const revalidate = 0;
 
@@ -24,15 +25,33 @@ async function getPoem(slug: string) {
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const data = await getPoem(params.slug);
   if (!data) return {};
+  const description = data.poem.body.slice(0, 140);
   return {
-    title: `${data.poem.title} — Inkwell`,
-    description: data.poem.body.slice(0, 140),
-    openGraph: { title: data.poem.title, description: data.poem.body.slice(0, 140) },
+    title: data.poem.title,
+    description,
+    openGraph: {
+      title: data.poem.title,
+      description,
+      type: 'article',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: data.poem.title,
+      description,
+    },
+    alternates: {
+      canonical: `/poems/${params.slug}`,
+    },
   };
 }
 
 export default async function PoemPage({ params }: { params: { slug: string } }) {
   const data = await getPoem(params.slug);
   if (!data) notFound();
-  return <PoemView poem={data.poem} related={data.related} />;
+  return (
+    <>
+      <JsonLd data={poemSchema(data.poem)} />
+      <PoemView poem={data.poem} related={data.related} />
+    </>
+  );
 }

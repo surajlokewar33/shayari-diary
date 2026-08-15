@@ -1,7 +1,15 @@
 import { SignJWT, jwtVerify } from 'jose';
 import { NextRequest } from 'next/server';
 
-const secret = new TextEncoder().encode(process.env.JWT_SECRET || 'insecure-dev-secret');
+function getSecret() {
+  const jwt = process.env.JWT_SECRET;
+  if (!jwt) {
+    throw new Error('JWT_SECRET environment variable is not set. Admin auth will not work.');
+  }
+  return new TextEncoder().encode(jwt);
+}
+
+const secret = getSecret();
 export const SESSION_COOKIE = 'shayari_admin_session';
 
 export type SessionPayload = { adminId: string; username: string };

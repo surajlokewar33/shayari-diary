@@ -21,7 +21,10 @@ const devanagari = Noto_Serif_Devanagari({
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://suraurshayari.vercel.app'),
-  title: 'मुरीद शाइर — A Digital Shayari Diary',
+  title: {
+    default: 'मुरीद शाइर — A Digital Shayari Diary',
+    template: '%s — मुरीद शाइर',
+  },
   description: 'मुरीद शाइर — हर शब्द एक एहसास, हर शेर एक कहानी। उर्दू शायरी, हिंदी कविताएँ, मराठी कविता, ग़ज़लें और नज़्में।',
   openGraph: {
     title: 'मुरीद शाइर — A Digital Shayari Diary',

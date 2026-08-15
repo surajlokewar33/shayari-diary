@@ -3,6 +3,7 @@ import { dbConnect } from '@/lib/mongodb';
 import Poem from '@/lib/models/Poem';
 import { getSessionFromRequest } from '@/lib/auth';
 import slugify from 'slugify';
+import { nanoid } from 'nanoid';
 
 export async function GET(_req: NextRequest, { params }: { params: { id: string } }) {
   await dbConnect();
@@ -24,7 +25,9 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
   if (data.title) {
     const existing = await Poem.findById(params.id).lean();
     if (existing && data.title !== (existing as any).title) {
-      update.slug = slugify(data.title, { lower: true, strict: true }).slice(0, 80) || 'poem';
+      const baseSlug = slugify(data.title, { lower: true, strict: true }).slice(0, 80) || 'poem';
+      const collision = await Poem.findOne({ slug: baseSlug, _id: { $ne: params.id } });
+      update.slug = collision ? `${baseSlug}-${nanoid(5)}` : baseSlug;
     }
   }
   if (data.scheduledAt !== undefined) {

@@ -1,6 +1,10 @@
 'use client';
 
 import { useState } from 'react';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
+import { sherVariants, sherTransition } from '@/lib/motion';
+import TiltCard from './TiltCard';
+import InkDrift from './InkDrift';
 
 const CURATED_SHERS = [
   {
@@ -41,18 +45,14 @@ export default function CoupletCard({
   customShers?: { sher: string; author: string; tag?: string }[];
 }) {
   const shers = customShers && customShers.length > 0 ? customShers : CURATED_SHERS;
+  const prefersReduced = useReducedMotion();
   const [index, setIndex] = useState(0);
   const [copied, setCopied] = useState(false);
-  const [fade, setFade] = useState(true);
 
   const current = shers[index];
 
   function nextSher() {
-    setFade(false);
-    setTimeout(() => {
-      setIndex((prev) => (prev + 1) % shers.length);
-      setFade(true);
-    }, 150);
+    setIndex((prev) => (prev + 1) % shers.length);
   }
 
   async function handleCopy() {
@@ -62,10 +62,12 @@ export default function CoupletCard({
   }
 
   return (
-    <div
+    <TiltCard
       id="couplet-of-the-day"
       className="relative glass-journal rounded-3xl p-6 sm:p-8 md:p-10 border border-gold/30 overflow-hidden my-6 sm:my-8 shadow-card"
     >
+      <InkDrift />
+
       <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="flex-1">
           {/* Header Tag */}
@@ -81,20 +83,25 @@ export default function CoupletCard({
             )}
           </div>
 
-          {/* Sher Content with CSS Fade Transition */}
-          <div
-            className={`transition-opacity duration-200 ${
-              fade ? 'opacity-100' : 'opacity-0'
-            }`}
-          >
-            <blockquote className="font-devanagari text-xl sm:text-2xl md:text-3xl text-parchment font-semibold leading-relaxed whitespace-pre-line my-3">
-              &ldquo;{current.sher}&rdquo;
-            </blockquote>
+          {/* Sher Content with AnimatePresence */}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={index}
+              variants={prefersReduced ? undefined : sherVariants}
+              initial={prefersReduced ? undefined : 'enter'}
+              animate={prefersReduced ? undefined : 'center'}
+              exit={prefersReduced ? undefined : 'exit'}
+              transition={prefersReduced ? undefined : sherTransition}
+            >
+              <blockquote className="font-devanagari text-xl sm:text-2xl md:text-3xl text-parchment font-semibold leading-relaxed whitespace-pre-line my-3">
+                &ldquo;{current.sher}&rdquo;
+              </blockquote>
 
-            <p className="font-devanagari text-sm text-amber mt-2 flex items-center gap-1.5 font-medium">
-              <span>— {current.author}</span>
-            </p>
-          </div>
+              <p className="font-devanagari text-sm text-amber mt-2 flex items-center gap-1.5 font-medium">
+                <span>— {current.author}</span>
+              </p>
+            </motion.div>
+          </AnimatePresence>
         </div>
 
         {/* Action Buttons: Shuffle and Copy (min 44px touch targets) */}
@@ -134,6 +141,6 @@ export default function CoupletCard({
           </button>
         </div>
       </div>
-    </div>
+    </TiltCard>
   );
 }

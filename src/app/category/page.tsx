@@ -1,9 +1,19 @@
 import Link from 'next/link';
+import { Metadata } from 'next';
 import { dbConnect } from '@/lib/mongodb';
 import Poem from '@/lib/models/Poem';
 import { CATEGORIES, CATEGORY_LABELS } from '@/lib/types';
 
 export const revalidate = 0;
+
+export const metadata: Metadata = {
+  title: 'काव्य श्रेणियाँ',
+  description: 'उर्दू शायरी, हिंदी कविता, मराठी काव्य, ग़ज़ल, नज़्म, शेर — सभी काव्य विधाओं का संग्रह।',
+  openGraph: {
+    title: 'काव्य श्रेणियाँ — मुरीद शाइर',
+    description: 'उर्दू शायरी, हिंदी कविता, मराठी काव्य, ग़ज़ल, नज़्म, शेर — सभी काव्य विधाओं का संग्रह।',
+  },
+};
 
 const CATEGORY_META: Record<
   string,

@@ -5,6 +5,8 @@ import PoemCard from '@/components/PoemCard';
 import HeroBanner from '@/components/HeroBanner';
 import CoupletCard from '@/components/CoupletCard';
 import { CATEGORIES, CATEGORY_LABELS } from '@/lib/types';
+import JsonLd, { websiteSchema } from '@/components/JsonLd';
+import AnimatedGrid from '@/components/AnimatedGrid';
 
 export const revalidate = 0;
 
@@ -64,6 +66,8 @@ export default async function HomePage() {
 
   return (
     <div className="space-y-8 sm:space-y-12 md:space-y-16">
+      <JsonLd data={websiteSchema()} />
+
       {/* 1. Atmospheric Illustrated Hero Banner */}
       <HeroBanner />
 
@@ -83,7 +87,7 @@ export default async function HomePage() {
           </h2>
         </div>
 
-        <div className="flex flex-wrap gap-2.5 sm:gap-3 justify-center">
+        <AnimatedGrid className="flex flex-wrap gap-2.5 sm:gap-3 justify-center" staggerLimit={6} baseDelay={0.04} tailDelay={0.01}>
           {CATEGORIES.map((c) => {
             const count = countMap[c] || 0;
             const icon = CATEGORY_ICONS[c] || '✒️';
@@ -105,7 +109,7 @@ export default async function HomePage() {
               </Link>
             );
           })}
-        </div>
+        </AnimatedGrid>
       </section>
 
       {/* 4. Featured Shayari of the Day */}
@@ -170,11 +174,11 @@ export default async function HomePage() {
         </div>
 
         {latest.length > 0 ? (
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          <AnimatedGrid className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8" staggerLimit={8}>
             {latest.map((p: any) => (
               <PoemCard key={p._id} poem={p} />
             ))}
-          </div>
+          </AnimatedGrid>
         ) : (
           <div className="glass-journal rounded-3xl p-12 text-center text-muted border border-gold/20">
             <p className="font-devanagari text-lg mb-2">डायरी में अभी कोई शायरी प्रकाशित नहीं है।</p>

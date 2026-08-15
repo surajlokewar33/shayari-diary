@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import PoemCard from '@/components/PoemCard';
+import BlinkCursor from '@/components/BlinkCursor';
 import { Poem, CATEGORIES, CATEGORY_LABELS } from '@/lib/types';
 
 function SkeletonCard() {
@@ -93,7 +94,8 @@ export default function SearchPage() {
             <button
               onClick={() => setQ('')}
               className="absolute right-5 top-1/2 -translate-y-1/2 text-muted hover:text-parchment text-lg w-8 h-8 flex items-center justify-center"
-              title="Clear search"
+              title="खोज साफ़ करें"
+              aria-label="खोज साफ़ करें"
             >
               ✕
             </button>
@@ -147,8 +149,9 @@ export default function SearchPage() {
           <div className="w-14 h-14 rounded-full bg-gold/10 border border-gold/30 flex items-center justify-center text-2xl mx-auto mb-4 text-amber shadow-sm">
             🔍
           </div>
-          <h2 className="font-devanagari text-xl font-bold text-parchment mb-2">
-            कोई रचना नहीं मिली
+          <h2 className="font-devanagari text-xl font-bold text-parchment mb-2 flex items-center justify-center">
+            <span>कोई रचना नहीं मिली</span>
+            <BlinkCursor />
           </h2>
           <p className="text-sm font-ui text-cream/80 mb-6 leading-relaxed">
             {q ? `"${q}" से मेल खाती कोई शायरी नहीं मिली।` : 'इस श्रेणी में अभी कोई रचना उपलब्ध नहीं है।'} कृपया कोई दूसरा शब्द खोजें या अन्य काव्य विधाएँ देखें।

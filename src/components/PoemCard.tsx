@@ -27,7 +27,7 @@ export default function PoemCard({ poem }: { poem: Poem }) {
   return (
     <Link
       href={`/poems/${poem.slug}`}
-      className="glass-journal glow-hover group rounded-3xl p-6 sm:p-7 h-full flex flex-col justify-between border border-gold/25 relative overflow-hidden transition-all duration-300 min-h-[260px]"
+      className="glass-journal glow-hover group rounded-3xl p-6 sm:p-7 h-full flex flex-col justify-between border border-gold/25 relative overflow-hidden transition-all duration-300 min-h-[260px] active:scale-[0.97] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-gradient-to-r after:from-gold after:to-gold-amber group-hover:after:w-full after:transition-all after:duration-300 after:ease-out"
     >
       {/* Subtle corner ornament */}
       <div className="absolute top-3 right-3 w-4 h-4 border-t border-r border-gold/30 rounded-tr-md pointer-events-none" />

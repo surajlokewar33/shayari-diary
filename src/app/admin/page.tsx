@@ -9,6 +9,7 @@ export default function AdminDashboard() {
   const router = useRouter();
   const [poems, setPoems] = useState<Poem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [authenticated, setAuthenticated] = useState(false);
   const [username, setUsername] = useState('');
   const [fetchError, setFetchError] = useState<string | null>(null);
 
@@ -17,24 +18,25 @@ export default function AdminDashboard() {
     setFetchError(null);
 
     try {
-      const [poemsRes, meRes] = await Promise.all([
-        fetch('/api/poems?all=1'),
-        fetch('/api/auth/me'),
-      ]);
+      // Check auth FIRST before loading any data
+      const meRes = await fetch('/api/auth/me');
 
       if (!meRes.ok) {
-        const text = await meRes.text();
-        console.error('auth/me fetch failed:', meRes.status, text);
-        router.push('/admin/login');
+        router.replace('/admin/login');
         return;
       }
 
       const meData = await meRes.json();
       if (!meData.authenticated) {
-        router.push('/admin/login');
+        router.replace('/admin/login');
         return;
       }
+
+      setAuthenticated(true);
       setUsername(meData.username || '');
+
+      // Only fetch poems after auth is confirmed
+      const poemsRes = await fetch('/api/poems?all=1');
 
       if (!poemsRes.ok) {
         const text = await poemsRes.text();
@@ -45,6 +47,11 @@ export default function AdminDashboard() {
       const poemsData = await poemsRes.json();
       setPoems(poemsData.poems || []);
     } catch (err: any) {
+      // If we haven't confirmed auth yet, redirect to login
+      if (!authenticated) {
+        router.replace('/admin/login');
+        return;
+      }
       console.error('Failed to load dashboard data:', err);
       setFetchError(err.message || 'डेटा लोड करने में त्रुटि हुई');
     } finally {
@@ -91,6 +98,17 @@ export default function AdminDashboard() {
 
   const totalLikes = poems.reduce((s, p) => s + (p.likes || 0), 0);
   const totalViews = poems.reduce((s, p) => s + (p.views || 0), 0);
+
+  // Block ALL dashboard content until auth is confirmed
+  if (!authenticated) {
+    return (
+      <section className="mx-auto max-w-md px-4 py-24 text-center">
+        <div className="glass-journal rounded-2xl p-12 border border-gold/20">
+          <p className="font-devanagari text-base text-muted">प्रमाणीकरण जाँच हो रही है…</p>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="mx-auto max-w-6xl px-4 sm:px-6 md:px-8 py-12 md:py-16">

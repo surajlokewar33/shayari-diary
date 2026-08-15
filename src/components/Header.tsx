@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 
 const NAV = [
   { href: '/', label: 'होम' },
@@ -66,8 +67,8 @@ export default function Header() {
           </div>
         </Link>
 
-        {/* Desktop Navigation Links */}
-        <nav className="hidden md:flex items-center gap-1 font-devanagari text-sm">
+        {/* Desktop Navigation Links with Elastic Spring Underline */}
+        <nav className="hidden md:flex items-center gap-1 font-devanagari text-sm relative">
           {NAV.map((item) => {
             const active = pathname === item.href;
             return (
@@ -81,6 +82,18 @@ export default function Header() {
                 }`}
               >
                 {item.label}
+                {active && (
+                  <motion.div
+                    layoutId="navActiveUnderline"
+                    className="absolute -bottom-1 left-3 right-3 h-[2px] bg-gradient-to-r from-gold via-amber to-gold rounded-full shadow-[0_0_8px_rgba(212,175,55,0.6)]"
+                    transition={{
+                      type: 'spring',
+                      stiffness: 360,
+                      damping: 24,
+                      mass: 0.8,
+                    }}
+                  />
+                )}
               </Link>
             );
           })}
@@ -90,7 +103,7 @@ export default function Header() {
         <button
           className="md:hidden text-amber w-11 h-11 rounded-full glass border border-gold/30 flex items-center justify-center text-xl focus-visible:ring-2 focus-visible:ring-gold/60 focus:outline-none transition-all active:scale-95"
           onClick={() => setOpen((v) => !v)}
-          aria-label={open ? 'Close Menu' : 'Open Menu'}
+          aria-label={open ? 'मेनू बंद करें' : 'मेनू खोलें'}
           aria-expanded={open}
         >
           {open ? '✕' : '☰'}

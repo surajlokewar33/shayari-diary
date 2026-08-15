@@ -1,10 +1,24 @@
 import Link from 'next/link';
+import type { Metadata } from 'next';
 import { dbConnect } from '@/lib/mongodb';
 import Poem from '@/lib/models/Poem';
 import PoemCard from '@/components/PoemCard';
 import { CATEGORY_LABELS } from '@/lib/types';
 
 export const revalidate = 0;
+
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const category = decodeURIComponent(params.slug);
+  const label = CATEGORY_LABELS[category as keyof typeof CATEGORY_LABELS] ?? category;
+  return {
+    title: label,
+    description: `${label} — मुरीद शाइर की ${label} रचनाएँ पढ़ें।`,
+    openGraph: {
+      title: `${label} — मुरीद शाइर`,
+      description: `${label} — मुरीद शाइर की ${label} रचनाएँ पढ़ें।`,
+    },
+  };
+}
 
 export default async function CategoryPage({ params }: { params: { slug: string } }) {
   const category = decodeURIComponent(params.slug);

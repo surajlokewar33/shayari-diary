@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import PoemCard from '@/components/PoemCard';
+import BlinkCursor from '@/components/BlinkCursor';
 import { Poem } from '@/lib/types';
 import { getFavorites } from '@/lib/favorites';
 
@@ -74,8 +75,9 @@ export default function FavoritesPage() {
           <div className="w-14 h-14 rounded-full bg-gold/10 border border-gold/30 flex items-center justify-center text-2xl mx-auto mb-4 text-amber shadow-sm">
             ★
           </div>
-          <h2 className="font-devanagari text-xl font-bold text-parchment mb-2">
-            कोई पसंदीदा रचना नहीं है
+          <h2 className="font-devanagari text-xl font-bold text-parchment mb-2 flex items-center justify-center">
+            <span>कोई पसंदीदा रचना नहीं है</span>
+            <BlinkCursor />
           </h2>
           <p className="text-sm font-ui text-cream/80 mb-6 leading-relaxed">
             डायरी पढ़ते समय किसी भी शायरी पर ★ दबाकर उसे अपनी इस व्यक्तिगत सूची में सहेजें।

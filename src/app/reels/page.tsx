@@ -4,8 +4,17 @@ import InstagramEmbed from '@/components/InstagramEmbed';
 import { REELS_DATA } from '@/data/reels';
 
 export const metadata: Metadata = {
-  title: 'काव्य रील्स · Instagram Reels — मुरीद शाइर',
+  title: 'काव्य रील्स · Instagram Reels',
   description: 'Instagram पर प्रस्तुत स्वरचित शायरी, नज़्में और भावपूर्ण वीडियो कलाम। मुरीद शाइर (@suru33_) की सभी रील्स देखें।',
+  openGraph: {
+    title: 'काव्य रील्स · Instagram Reels — मुरीद शाइर',
+    description: 'Instagram पर प्रस्तुत स्वरचित शायरी, नज़्में और भावपूर्ण वीडियो कलाम। मुरीद शाइर (@suru33_) की सभी रील्स देखें।',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'काव्य रील्स · Instagram Reels — मुरीद शाइर',
+    description: 'स्वरचित शायरी, नज़्में और भावपूर्ण वीडियो कलाम।',
+  },
 };
 
 const INSTAGRAM_PROFILE = 'https://www.instagram.com/suru33_?igsh=NnNhb2o4M2w5a2Zs';
