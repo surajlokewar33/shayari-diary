@@ -20,32 +20,15 @@ const LINES = [
 export default function HeroBanner() {
   const prefersReduced = useReducedMotion();
   const [lineIndex, setLineIndex] = useState(0);
-  const [text, setText] = useState('');
-  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
-    const current = LINES[lineIndex];
-    const speed = deleting ? 25 : 45;
+    if (prefersReduced) return;
+    const interval = setInterval(() => {
+      setLineIndex((prev) => (prev + 1) % LINES.length);
+    }, 5500);
 
-    const timeout = setTimeout(() => {
-      if (!deleting) {
-        if (text.length < current.length) {
-          setText(current.slice(0, text.length + 1));
-        } else {
-          setTimeout(() => setDeleting(true), 2000);
-        }
-      } else {
-        if (text.length > 0) {
-          setText(current.slice(0, text.length - 1));
-        } else {
-          setDeleting(false);
-          setLineIndex((i) => (i + 1) % LINES.length);
-        }
-      }
-    }, speed);
-
-    return () => clearTimeout(timeout);
-  }, [text, deleting, lineIndex]);
+    return () => clearInterval(interval);
+  }, [prefersReduced]);
 
   return (
     <section className="relative w-full pt-4 pb-8 sm:pb-12 px-4 sm:px-6 md:px-8 max-w-6xl mx-auto">
@@ -105,10 +88,10 @@ export default function HeroBanner() {
             <div className="h-[1px] flex-1 bg-gradient-to-l from-transparent to-gold" />
           </motion.div>
 
-          {/* Typewriter / Scramble Couplet Box */}
+          {/* Couplet Scramble Box */}
           <motion.div variants={heroItemVariants} className="min-h-[64px] sm:min-h-[58px] flex items-center justify-center mb-8 px-5 py-3 rounded-2xl glass border border-gold/20 max-w-xl w-full shadow-inner">
             <p className="font-devanagari text-base sm:text-lg md:text-xl text-cream font-medium leading-relaxed">
-              &ldquo;<TextScramble text={text || LINES[0]} />&rdquo;
+              &ldquo;<TextScramble key={lineIndex} text={LINES[lineIndex]} duration={1400} />&rdquo;
               <span className="inline-block w-[2px] h-5 bg-amber ml-1.5 animate-shimmer align-middle" />
             </p>
           </motion.div>

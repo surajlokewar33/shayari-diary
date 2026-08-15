@@ -36,7 +36,7 @@ const PoemSchema = new Schema(
       required: true,
     },
     tags: { type: [String], default: [] },
-    author: { type: String, default: 'Anonymous' },
+    author: { type: String, default: 'मुरीद शाइर' },
     audioUrl: { type: String, default: '' },
     videoUrl: { type: String, default: '' },
     imageUrl: { type: String, default: '' },

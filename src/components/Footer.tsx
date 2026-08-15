@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 const SOCIAL_LINKS = {
   instagram: 'https://www.instagram.com/suru33_?igsh=NnNhb2o4M2w5a2Zs',
-  youtube: 'https://youtube.com/@suru...0123?si=6p5AgL-P44LxbjkB',
+  youtube: 'https://youtube.com/channel/UCIxErmM7nod9bM4cB0VhVBw?si=6a_SAL5iV9d87vNz',
 };
 
 const QUICK_LINKS = [

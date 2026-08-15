@@ -44,7 +44,10 @@ export function personSchema() {
     name: 'सुरज लोकेवार',
     alternateName: 'मुरीद शाइर',
     url: 'https://suraurshayari.vercel.app/contact',
-    sameAs: ['https://www.instagram.com/suru33_'],
+    sameAs: [
+      'https://www.instagram.com/suru33_',
+      'https://youtube.com/channel/UCIxErmM7nod9bM4cB0VhVBw?si=6a_SAL5iV9d87vNz',
+    ],
   };
 }
 
