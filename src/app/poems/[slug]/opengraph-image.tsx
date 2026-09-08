@@ -138,7 +138,7 @@ export async function buildOgImage(slug: string): Promise<ImageResponse> {
               fontFamily: bodyFontFamily,
               fontWeight: 600,
               marginBottom: 24,
-              lineHeight: 1.25,
+              lineHeight: 1.5,
               maxWidth: 980,
               direction: isUrdu ? 'rtl' : 'ltr',
             }}
@@ -162,7 +162,7 @@ export async function buildOgImage(slug: string): Promise<ImageResponse> {
               fontSize: 32,
               color: COLORS.parchment,
               fontFamily: bodyFontFamily,
-              lineHeight: 1.5,
+              lineHeight: 1.7,
               maxWidth: 980,
               direction: isUrdu ? 'rtl' : 'ltr',
               textAlign: isUrdu ? 'right' : 'left',

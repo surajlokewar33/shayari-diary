@@ -40,6 +40,7 @@ const PoemSchema = new Schema(
     audioUrl: { type: String, default: '' },
     videoUrl: { type: String, default: '' },
     imageUrl: { type: String, default: '' },
+    fontStyle: { type: String, default: 'hind' },
     ambience: {
       type: String,
       enum: ['petals', 'rain', 'stars', 'fireflies', 'smoke', 'none'],

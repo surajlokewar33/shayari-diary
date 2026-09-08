@@ -30,7 +30,7 @@ export default function ReelsPage() {
           <span>🎬</span>
         </div>
 
-        <h1 className="font-devanagari text-3xl sm:text-4xl md:text-5xl font-bold text-parchment mb-4 leading-tight">
+        <h1 className="font-devanagari text-3xl sm:text-4xl md:text-5xl font-bold text-parchment mb-4">
           शायरी रील्स एवं वीडियो कलाम
         </h1>
 
@@ -72,7 +72,7 @@ export default function ReelsPage() {
                   {idx + 1}
                 </span>
                 <div>
-                  <h2 className="font-devanagari text-lg sm:text-xl font-bold text-parchment leading-snug">
+                  <h2 className="font-devanagari text-lg sm:text-xl font-bold text-parchment">
                     {reel.title}
                   </h2>
                   {reel.date && (

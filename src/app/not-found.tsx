@@ -10,7 +10,7 @@ export default function NotFound() {
         <span>✦</span>
       </div>
 
-      <h1 className="font-devanagari text-3xl sm:text-4xl md:text-5xl font-bold text-parchment mb-4 leading-tight">
+      <h1 className="font-devanagari text-3xl sm:text-4xl md:text-5xl font-bold text-parchment mb-4">
         यह पन्ना डायरी में मौजूद नहीं है
       </h1>
 

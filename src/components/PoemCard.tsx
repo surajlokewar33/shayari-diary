@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Poem, readingTime, CATEGORY_LABELS } from '@/lib/types';
+import { getFontFamily } from '@/lib/fonts';
 
 const CATEGORY_ICONS: Record<string, string> = {
   'Urdu Shayari': '🖋️',
@@ -60,8 +61,9 @@ export default function PoemCard({ poem }: { poem: Poem }) {
         {/* Visual Hierarchy Step 2: Poem Title */}
         <h3
           dir={isUrdu ? 'rtl' : 'ltr'}
-          className={`text-xl sm:text-2xl font-bold mb-3 text-parchment group-hover:text-amber transition-colors line-clamp-2 leading-snug ${
-            isUrdu ? 'font-devanagari text-right' : 'font-devanagari'
+          style={{ fontFamily: getFontFamily(poem.fontStyle) }}
+          className={`text-xl sm:text-2xl font-bold mb-3 text-parchment group-hover:text-amber transition-colors line-clamp-2 ${
+            isUrdu ? 'text-right' : ''
           }`}
         >
           {poem.title}
@@ -70,8 +72,9 @@ export default function PoemCard({ poem }: { poem: Poem }) {
         {/* Visual Hierarchy Step 3: Excerpt */}
         <p
           dir={isUrdu ? 'rtl' : 'ltr'}
-          className={`text-sm sm:text-base text-cream/85 line-clamp-3 leading-relaxed whitespace-pre-line ${
-            isUrdu ? 'font-devanagari text-right' : 'font-devanagari'
+          style={{ fontFamily: getFontFamily(poem.fontStyle), lineHeight: '1.6' }}
+          className={`text-sm sm:text-base text-cream/85 line-clamp-3 whitespace-pre-line ${
+            isUrdu ? 'text-right' : ''
           }`}
         >
           {excerpt}

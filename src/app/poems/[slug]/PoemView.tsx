@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { Poem, readingTime, CATEGORY_LABELS } from '@/lib/types';
+import { getFontFamily } from '@/lib/fonts';
 import { isFavorite, toggleFavorite, hasLiked, setLiked } from '@/lib/favorites';
 import AmbientCanvas from '@/components/AmbientCanvas';
 import PoemCard from '@/components/PoemCard';
@@ -17,6 +18,19 @@ import PageTurnLink from '@/components/PageTurnLink';
 function getYouTubeEmbedUrl(url: string): string | null {
   const match = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
   return match ? `https://www.youtube.com/embed/${match[1]}` : null;
+}
+
+const HINDI_MONTHS = [
+  'जनवरी', 'फ़रवरी', 'मार्च', 'अप्रैल', 'मई', 'जून',
+  'जुलाई', 'अगस्त', 'सितम्बर', 'अक्टूबर', 'नवम्बर', 'दिसम्बर',
+];
+
+function formatHindiDate(dateStr: string): string {
+  const d = new Date(dateStr);
+  const day = d.getDate();
+  const month = HINDI_MONTHS[d.getMonth()];
+  const year = d.getFullYear();
+  return `${day} ${month} ${year}`;
 }
 
 export default function PoemView({ poem, related }: { poem: Poem; related: Poem[] }) {
@@ -136,18 +150,23 @@ export default function PoemView({ poem, related }: { poem: Poem; related: Poem[
               <span>{readingTime(poem.body)}</span>
             </div>
 
-            <div className="flex items-center gap-3 text-muted">
-              <span>👁 {poem.views} बार पढ़ा गया</span>
-              <span>·</span>
-              <span>{new Date(poem.createdAt).toLocaleDateString('hi-IN', { year: 'numeric', month: 'short', day: 'numeric' })}</span>
+          {/* Stats bar — views + date, low-key gray/white text */}
+            <div className="flex items-baseline gap-2 text-[13px] font-devanagari text-cream/60 leading-snug">
+              <span className="flex items-baseline gap-1.5">
+                <span className="opacity-70">👁</span>
+                <span>{poem.views} बार पढ़ा गया</span>
+              </span>
+              <span className="mx-1 opacity-40 select-none">·</span>
+              <span>{formatHindiDate(poem.createdAt)}</span>
             </div>
           </div>
 
           {/* Poem Title */}
           <h1
             dir={isUrdu ? 'rtl' : 'ltr'}
-            className={`font-bold text-3xl sm:text-4xl md:text-5xl text-parchment mb-4 drop-shadow-sm leading-tight ${
-              isUrdu ? 'font-devanagari text-right' : 'font-devanagari'
+            style={{ fontFamily: getFontFamily(poem.fontStyle) }}
+            className={`font-bold text-3xl sm:text-4xl md:text-5xl text-parchment mb-4 drop-shadow-sm ${
+              isUrdu ? 'text-right' : ''
             }`}
           >
             {poem.title}
@@ -161,10 +180,11 @@ export default function PoemView({ poem, related }: { poem: Poem; related: Poem[
           {/* The Poem Verses with Ink handwriting wipe */}
           <div
             dir={isUrdu ? 'rtl' : 'ltr'}
+            style={{ fontFamily: getFontFamily(poem.fontStyle) }}
             className={`poem-body my-10 text-parchment leading-[2.3] max-w-2xl ${
               isUrdu
-                ? 'font-devanagari text-right text-xl sm:text-2xl pr-6 border-r-2 border-gold/40'
-                : 'font-devanagari text-xl sm:text-2xl pl-6 border-l-2 border-gold/40'
+                ? 'text-right text-xl sm:text-2xl pr-6 border-r-2 border-gold/40'
+                : 'text-xl sm:text-2xl pl-6 border-l-2 border-gold/40'
             }`}
           >
             <InkReveal text={poem.body} isUrdu={isUrdu} />

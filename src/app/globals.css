@@ -34,6 +34,26 @@ body {
   font-feature-settings: "cv02", "cv03", "cv04", "cv11";
 }
 
+/* Universal Devanagari / Hindi text spacing fix.
+   Ensures matras (ी, ो, ां, ृ), conjuncts, and the shirorekha
+   are never clipped by overflow or line-clamp containers. */
+.font-devanagari {
+  font-family: 'Hind', 'Noto Sans Devanagari', sans-serif;
+  line-height: 1.65;
+  padding-top: 0.15em;
+}
+
+/* Fix for line-clamp containers where overflow:hidden clips the top
+   of Devanagari ascenders. The negative margin + padding trick creates
+   visual breathing room without breaking the clamp layout. */
+.font-devanagari.line-clamp-1,
+.font-devanagari.line-clamp-2,
+.font-devanagari.line-clamp-3,
+.font-devanagari.line-clamp-4 {
+  padding-top: 0.2em;
+  margin-top: -0.1em;
+}
+
 ::selection {
   background: rgba(212, 175, 55, 0.32);
   color: var(--text-primary);
@@ -210,8 +230,9 @@ select:focus-visible,
 /* Poem Verse Display */
 .poem-body {
   white-space: pre-line;
-  line-height: 2.2;
+  line-height: 2.5;
   letter-spacing: 0.02em;
+  padding-top: 0.3em;
 }
 
 /* Skeleton Loading Shimmer */
@@ -238,3 +259,28 @@ select:focus-visible,
     transition-duration: 0.001ms !important;
   }
 }
+
+/* Devanagari Typography Classes with Safe Line-Height */
+.font-noto { font-family: 'Noto Sans Devanagari', sans-serif; line-height: 1.6; }
+.font-mukta { font-family: 'Mukta', sans-serif; line-height: 1.6; }
+.font-hind { font-family: 'Hind', sans-serif; line-height: 1.6; }
+.font-baloo2 { font-family: 'Baloo 2', cursive; line-height: 1.6; }
+.font-baloo-bhai2 { font-family: 'Baloo Bhai 2', cursive; line-height: 1.6; }
+.font-kalam { font-family: 'Kalam', cursive; line-height: 1.6; }
+.font-tillana { font-family: 'Tillana', cursive; line-height: 1.6; }
+.font-sumana { font-family: 'Sumana', serif; line-height: 1.6; }
+.font-eczar { font-family: 'Eczar', serif; line-height: 1.6; }
+.font-martel { font-family: 'Martel', serif; line-height: 1.6; }
+.font-rozha { font-family: 'Rozha One', serif; line-height: 1.6; }
+.font-vesper { font-family: 'Vesper Libre', serif; line-height: 1.6; }
+.font-rajdhani { font-family: 'Rajdhani', sans-serif; line-height: 1.6; }
+.font-khand { font-family: 'Khand', sans-serif; line-height: 1.6; }
+.font-yatra { font-family: 'Yatra One', cursive; line-height: 1.6; }
+.font-teko { font-family: 'Teko', sans-serif; line-height: 1.6; }
+.font-hindsiliguri { font-family: 'Hind Siliguri', sans-serif; line-height: 1.6; }
+.font-hindvadodara { font-family: 'Hind Vadodara', sans-serif; line-height: 1.6; }
+.font-hindguntur { font-family: 'Hind Guntur', sans-serif; line-height: 1.6; }
+.font-karma { font-family: 'Karma', serif; line-height: 1.6; }
+.font-palanquin { font-family: 'Palanquin', sans-serif; line-height: 1.6; }
+.font-poppins { font-family: 'Poppins', 'Noto Sans Devanagari', sans-serif; line-height: 1.6; }
+

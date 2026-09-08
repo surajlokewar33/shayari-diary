@@ -117,10 +117,10 @@ export async function generateShareImage(poem: Poem): Promise<Blob> {
   ctx.fillStyle = COLORS.goldBright;
   ctx.font = `600 56px ${bodyFont}`;
   const titleLines = wrapLines(ctx, poem.title, maxTextWidth);
-  let cursorY = 270;
+  let cursorY = 280;
   titleLines.slice(0, 2).forEach((line) => {
     ctx.fillText(line, centerX, cursorY);
-    cursorY += 68;
+    cursorY += 80;
   });
 
   cursorY += 50;
@@ -141,7 +141,7 @@ export async function generateShareImage(poem: Poem): Promise<Blob> {
   ctx.textAlign = isUrdu ? 'right' : 'center';
   const bodyX = isUrdu ? centerX + maxTextWidth / 2 : centerX;
   const bodyLines = wrapLines(ctx, poem.body, maxTextWidth).slice(0, 12);
-  const lineHeight = isUrdu ? 66 : 58;
+  const lineHeight = isUrdu ? 72 : 68;
   bodyLines.forEach((line) => {
     if (line) ctx.fillText(line, bodyX, cursorY);
     cursorY += lineHeight;
