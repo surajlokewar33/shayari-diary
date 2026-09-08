@@ -17,6 +17,7 @@ export type Poem = {
   audioUrl?: string;
   videoUrl?: string;
   imageUrl?: string;
+  fontStyle?: string;
   ambience: 'petals' | 'rain' | 'stars' | 'fireflies' | 'smoke' | 'none';
   likes: number;
   views: number;

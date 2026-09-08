@@ -126,7 +126,7 @@ export default async function HomePage() {
                 </span>
               </div>
 
-              <h2 className="font-devanagari text-3xl sm:text-4xl md:text-5xl font-bold text-parchment mb-5 leading-tight">
+              <h2 className="font-devanagari text-3xl sm:text-4xl md:text-5xl font-bold text-parchment mb-5">
                 {featured.title}
               </h2>
 

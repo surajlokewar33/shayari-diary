@@ -99,15 +99,17 @@ export default function Header() {
           })}
         </nav>
 
-        {/* Mobile Menu Toggle (Min 44x44px touch target) */}
-        <button
-          className="md:hidden text-amber w-11 h-11 rounded-full glass border border-gold/30 flex items-center justify-center text-xl focus-visible:ring-2 focus-visible:ring-gold/60 focus:outline-none transition-all active:scale-95"
-          onClick={() => setOpen((v) => !v)}
-          aria-label={open ? 'मेनू बंद करें' : 'मेनू खोलें'}
-          aria-expanded={open}
-        >
-          {open ? '✕' : '☰'}
-        </button>
+        {/* Mobile: Menu Toggle */}
+        <div className="md:hidden flex items-center gap-2">
+          <button
+            className="text-amber w-11 h-11 rounded-full glass border border-gold/30 flex items-center justify-center text-xl focus-visible:ring-2 focus-visible:ring-gold/60 focus:outline-none transition-all active:scale-95"
+            onClick={() => setOpen((v) => !v)}
+            aria-label={open ? 'मेनू बंद करें' : 'मेनू खोलें'}
+            aria-expanded={open}
+          >
+            {open ? '✕' : '☰'}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Navigation Drawer */}

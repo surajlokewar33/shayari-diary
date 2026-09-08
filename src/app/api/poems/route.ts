@@ -66,6 +66,7 @@ export async function POST(req: NextRequest) {
     audioUrl: data.audioUrl || '',
     videoUrl: data.videoUrl || '',
     imageUrl: data.imageUrl || '',
+    fontStyle: data.fontStyle || 'hind',
     ambience: data.ambience || 'petals',
     featured: !!data.featured,
     published: data.published !== false,

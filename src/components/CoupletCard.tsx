@@ -93,7 +93,7 @@ export default function CoupletCard({
               exit={prefersReduced ? undefined : 'exit'}
               transition={prefersReduced ? undefined : sherTransition}
             >
-              <blockquote className="font-devanagari text-xl sm:text-2xl md:text-3xl text-parchment font-semibold leading-relaxed whitespace-pre-line my-3">
+              <blockquote className="font-devanagari text-xl sm:text-2xl md:text-3xl text-parchment font-semibold leading-loose whitespace-pre-line my-3">
                 &ldquo;{current.sher}&rdquo;
               </blockquote>
 
